@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">ContactsApp</string>
+    <string name="continue_txt">CONTINUE</string>
+
+    //* Login *//
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="not_registered_signup_here">Not registered? SignUp Here</string>
+    <string name="forgot_password">Forgot password?</string>
+
+    //* Signup *//
+    <string name="signup">Signup</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+
+    //* Contacts *//
+
 </resources>
