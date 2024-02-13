@@ -10,11 +10,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.contactsapp.data.local.daos.UserDao;
-import com.example.contactsapp.data.models.Contact;
 import com.example.contactsapp.data.models.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Database(entities = {User.class}, version = 1)
 public abstract class UserDatabase extends RoomDatabase {
@@ -62,7 +58,7 @@ public abstract class UserDatabase extends RoomDatabase {
             List<Contact> tmpContacts = new ArrayList<>();
             tmpContacts.add(c);*/
 
-            userDao.insert(new User("adam", "3243rd", "13/02/2024"));
+            userDao.insert(new User("adam", "123", "13/02/2024"));
             return null;
         }
     }

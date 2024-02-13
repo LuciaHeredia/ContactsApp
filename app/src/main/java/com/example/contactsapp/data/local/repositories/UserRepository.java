@@ -13,15 +13,12 @@ import java.util.List;
 
 public class UserRepository {
     private UserDao userDao;
-    private LiveData<List<User>> allUsers;
 
     public UserRepository(Application application) {
         // db call
         UserDatabase userDatabase = UserDatabase.getInstance(application);
         // db access with dao
         userDao = userDatabase.userDao();
-        // db data
-        allUsers = userDao.getAllUsers();
     }
 
     public void insert(User user){
@@ -37,7 +34,7 @@ public class UserRepository {
     }
 
     public LiveData<List<User>> getAllUsers(){
-        return allUsers;
+        return userDao.getAllUsers();
     }
 
     private static class InsertUserAsyncTask extends AsyncTask<User, Void, Void> {
