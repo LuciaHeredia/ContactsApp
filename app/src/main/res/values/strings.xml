@@ -15,5 +15,6 @@
     <string name="confirm_password">Confirm Password</string>
 
     //* Contacts *//
+    <string name="contacts">Contacts</string>
 
 </resources>

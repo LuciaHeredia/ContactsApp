@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
     </fragment>
 
     <fragment
@@ -21,6 +24,16 @@
         android:name="com.example.contactsapp.ui.fragments.SignupFragment"
         android:label="@string/signup"
         tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_signupFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.example.contactsapp.ui.fragments.ContactsFragment"
+        android:label="@string/contacts"
+        tools:layout="@layout/fragment_contacts">
     </fragment>
 
 </navigation>

@@ -34,7 +34,7 @@ public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
@@ -86,7 +86,7 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getActivity(), Constants.MSG_WRONG_PASSWORD,Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS,Toast.LENGTH_LONG).show();
-                    //TODO: go to Contacts screen
+                    goToContacts();
                 }
             }
         }
@@ -101,6 +101,11 @@ public class LoginFragment extends Fragment {
             }
         }
         return null;
+    }
+
+    private void goToContacts() {
+        NavHostFragment.findNavController(LoginFragment.this)
+                .navigate(R.id.action_loginFragment_to_contactsFragment);
     }
 
     @Override
