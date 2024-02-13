@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -27,12 +25,26 @@ public class SignupFragment extends Fragment {
 
         binding = FragmentSignupBinding.inflate(inflater, container, false);
 
-
         return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        // SignUp -> LogIn
+        binding.signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*if(userViewModel.checkUserExist(binding.username.getText().toString())) {
+                    //TODO: show message "user already exists"
+                } else {
+                    //TODO: insert new user to db
+                    //TODO: show message "added successfully -> now try to log in"
+                    //TODO: direct to login screen for login
+                }*/
+            }
+        });
 
     }
 
