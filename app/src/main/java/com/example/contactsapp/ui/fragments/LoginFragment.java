@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.contactsapp.R;
 import com.example.contactsapp.databinding.FragmentLoginBinding;
 
 public class LoginFragment extends Fragment {
@@ -43,12 +45,14 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /*binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
+        // TODO: TEST
+        binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GetRetrofitResponse();
+                NavHostFragment.findNavController(LoginFragment.this)
+                        .navigate(R.id.action_loginFragment_to_signupFragment);
             }
-        });*/
+        });
 
     }
 

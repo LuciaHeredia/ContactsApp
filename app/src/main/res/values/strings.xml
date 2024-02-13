@@ -6,7 +6,7 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="not_registered_signup_here">Not registered? SignUp Here</string>
+    <string name="not_registered_signup_here">Not registered? Signup Here</string>
     <string name="forgot_password">Forgot password?</string>
 
     //* Signup *//
