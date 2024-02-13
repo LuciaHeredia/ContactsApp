@@ -1,6 +1,9 @@
 package com.example.contactsapp.ui.fragments;
 
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +49,13 @@ public class LoginFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        binding.signupText.setOnClickListener(view1 -> goToSignUp());
-        binding.loginButton.setOnClickListener(view2 -> loginAuth());
+        // underline text
+        binding.signupText.setPaintFlags(binding.signupText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        binding.forgotPasswordText.setPaintFlags(binding.forgotPasswordText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        // click listeners
+        binding.loginButton.setOnClickListener(view1 -> loginAuth());
+        binding.signupText.setOnClickListener(view2 -> goToSignUp());
+        binding.forgotPasswordText.setOnClickListener(view3 -> forgotPassword());
     }
 
     private void disableOnBackBtn() {
@@ -64,11 +71,6 @@ public class LoginFragment extends Fragment {
     private void initUsersFromDb() {
         UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.getAllUsers().observe(this, dbUsers -> users = dbUsers);
-    }
-
-    private void goToSignUp() {
-        NavHostFragment.findNavController(LoginFragment.this)
-                .navigate(R.id.action_loginFragment_to_signupFragment);
     }
 
     private void loginAuth() {
@@ -106,6 +108,15 @@ public class LoginFragment extends Fragment {
     private void goToContacts() {
         NavHostFragment.findNavController(LoginFragment.this)
                 .navigate(R.id.action_loginFragment_to_contactsFragment);
+    }
+
+    private void goToSignUp() {
+        NavHostFragment.findNavController(LoginFragment.this)
+                .navigate(R.id.action_loginFragment_to_signupFragment);
+    }
+
+    private void forgotPassword() {
+        // TODO: login -> forgotPassword???
     }
 
     @Override
