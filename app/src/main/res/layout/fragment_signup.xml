@@ -51,21 +51,6 @@
                 android:inputType="text" />
 
             <EditText
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/custom_edit_text"
-                android:drawableStart="@drawable/ic_signup_email"
-                android:drawablePadding="8dp"
-                android:hint="@string/email"
-                android:padding="8dp"
-                android:textColor="@color/black"
-                android:textColorHighlight="@color/cardview_dark_background"
-                android:layout_marginTop="20dp"
-                android:autofillHints=""
-                android:inputType="textEmailAddress" />
-
-            <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
