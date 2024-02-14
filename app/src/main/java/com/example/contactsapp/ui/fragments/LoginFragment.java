@@ -27,6 +27,8 @@ public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
     private PrefManager prefManager;
     private UserViewModel userViewModel;
+    private String ObserverType;
+    private Dialog changePasswordDialog;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -54,7 +56,7 @@ public class LoginFragment extends Fragment {
     ) {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         underlineTextSetup();
-        listenerSetup();
+        loginListenerSetup();
         return binding.getRoot();
     }
 
@@ -63,7 +65,7 @@ public class LoginFragment extends Fragment {
         binding.forgotPasswordText.setPaintFlags(binding.forgotPasswordText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
     }
 
-    private void listenerSetup() {
+    private void loginListenerSetup() {
         binding.loginButton.setOnClickListener(view1 -> loginAuth());
         binding.signupText.setOnClickListener(view2 -> goToSignup());
         binding.forgotPasswordText.setOnClickListener(view3 -> changePassword());
@@ -81,16 +83,43 @@ public class LoginFragment extends Fragment {
 
     private void observerSetup() {
         userViewModel.getUserResults().observe(this, foundUser -> {
-            if (foundUser==null) {
-                Toast.makeText(getActivity(), Constants.MSG_USER_NOT_FOUND,Toast.LENGTH_SHORT).show();
-            } else {
-                String password = binding.password.getText().toString();
-                if(!foundUser.getPassword().equals(password)) {
-                    Toast.makeText(getActivity(), Constants.MSG_WRONG_PASSWORD,Toast.LENGTH_SHORT).show();
+            if(ObserverType.equals(String.valueOf(R.string.login))) {
+                if (foundUser == null) {
+                    Toast.makeText(getActivity(), Constants.MSG_USER_NOT_FOUND, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS,Toast.LENGTH_LONG).show();
-                    prefManager.saveLoginUserData(foundUser);
-                    goToContacts();
+                    String password = binding.password.getText().toString();
+                    if (!foundUser.getPassword().equals(password)) {
+                        Toast.makeText(getActivity(), Constants.MSG_WRONG_PASSWORD, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS, Toast.LENGTH_LONG).show();
+                        prefManager.saveLoginUserData(foundUser);
+                        goToContacts();
+                    }
+                }
+            } else {
+                if (foundUser==null) {
+                    Toast.makeText(getActivity(), Constants.MSG_NO_USER_NEW_PASS, Toast.LENGTH_SHORT).show();
+                } else {
+                    Button btnDialog = changePasswordDialog.findViewById(R.id.continue_btn);
+                    EditText userTextInputDialog = changePasswordDialog.findViewById(R.id.user_input);
+
+                    // changing the dialog appearance
+                    userTextInputDialog.setText("");
+                    userTextInputDialog.setHint(R.string.new_password);
+                    userTextInputDialog.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signup_password, 0, 0, 0);
+                    btnDialog.setText(R.string.save_txt);
+
+                    btnDialog.setOnClickListener(v2 -> {
+                        String newPassword = userTextInputDialog.getText().toString();
+                        if (newPassword.equals("")) {
+                            Toast.makeText(getActivity(), Constants.MSG_ENTER_NEW_PASSWORD, Toast.LENGTH_SHORT).show();
+                        } else {
+                            foundUser.setPassword(newPassword);
+                            userViewModel.update(foundUser);
+                            Toast.makeText(getActivity(), Constants.MSG_PASSWORD_CHANGED, Toast.LENGTH_LONG).show();
+                            changePasswordDialog.dismiss();
+                        }
+                    });
                 }
             }
         });
@@ -103,47 +132,26 @@ public class LoginFragment extends Fragment {
         if(username.equals("") || password.equals("")) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
         } else {
+            ObserverType = String.valueOf(R.string.login);
             userViewModel.getUser(username);
         }
     }
 
     private void changePassword() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.forgot_password_dialog);
-        Button dialogButton = dialog.findViewById(R.id.continue_btn);
-        dialogButton.setOnClickListener(v1 -> {
-            EditText userTextInput = dialog.findViewById(R.id.user_input);
-            String usernameInput = userTextInput.getText().toString();
+        changePasswordDialog = new Dialog(getActivity());
+        changePasswordDialog.setContentView(R.layout.forgot_password_dialog);
+        Button btnDialog = changePasswordDialog.findViewById(R.id.continue_btn);
+        btnDialog.setOnClickListener(v1 -> {
+            EditText userTextInputDialog = changePasswordDialog.findViewById(R.id.user_input);
+            String usernameInput = userTextInputDialog.getText().toString();
             if(usernameInput.equals("")) {
                 Toast.makeText(getActivity(), Constants.MSG_ENTER_USERNAME,Toast.LENGTH_SHORT).show();
             } else {
-                /*userViewModel.getUser(usernameInput);
-                userViewModel.getUserResults().observe(this, foundUser -> {
-                    if (foundUser==null) {
-                        Toast.makeText(getActivity(), Constants.MSG_NO_USER_NEW_PASS, Toast.LENGTH_SHORT).show();
-                    } else {
-                        // changing the dialog appearance
-                        userTextInput.setText("");
-                        userTextInput.setHint(R.string.new_password);
-                        userTextInput.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signup_password, 0, 0, 0);
-                        dialogButton.setText(R.string.save_txt);
-
-                        dialogButton.setOnClickListener(v2 -> {
-                            String newPassword = userTextInput.getText().toString();
-                            if (newPassword.equals("")) {
-                                Toast.makeText(getActivity(), Constants.MSG_ENTER_NEW_PASSWORD, Toast.LENGTH_SHORT).show();
-                            } else {
-                                foundUser.setPassword(newPassword);
-                                userViewModel.update(foundUser);
-                                Toast.makeText(getActivity(), Constants.MSG_PASSWORD_CHANGED, Toast.LENGTH_LONG).show();
-                                dialog.dismiss();
-                            }
-                        });
-                    }
-                });*/
+                ObserverType = String.valueOf(R.string.change_password);
+                userViewModel.getUser(usernameInput);
             }
         });
-        dialog.show();
+        changePasswordDialog.show();
     }
 
     private void goToContacts() {
