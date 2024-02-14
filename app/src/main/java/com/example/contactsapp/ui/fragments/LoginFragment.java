@@ -2,8 +2,7 @@ package com.example.contactsapp.ui.fragments;
 
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -54,7 +54,7 @@ public class LoginFragment extends Fragment {
         binding.forgotPasswordText.setPaintFlags(binding.forgotPasswordText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         // click listeners
         binding.loginButton.setOnClickListener(view1 -> loginAuth());
-        binding.signupText.setOnClickListener(view2 -> goToSignUp());
+        binding.signupText.setOnClickListener(view2 -> goToSignup());
         binding.forgotPasswordText.setOnClickListener(view3 -> forgotPassword());
     }
 
@@ -77,6 +77,11 @@ public class LoginFragment extends Fragment {
         String username = binding.username.getText().toString();
         String password = binding.password.getText().toString();
 
+        // TODO: TEST: print all users
+        for(User user: users) {
+            Log.v("TAG",user.toString());
+        }
+
         if(username.equals("") || password.equals("")) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
         } else {
@@ -94,6 +99,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
+    @Nullable
     private User isUserExist(String username) {
         if(users != null) {
             for(User user: users) {
@@ -110,7 +116,7 @@ public class LoginFragment extends Fragment {
                 .navigate(R.id.action_loginFragment_to_contactsFragment);
     }
 
-    private void goToSignUp() {
+    private void goToSignup() {
         NavHostFragment.findNavController(LoginFragment.this)
                 .navigate(R.id.action_loginFragment_to_signupFragment);
     }

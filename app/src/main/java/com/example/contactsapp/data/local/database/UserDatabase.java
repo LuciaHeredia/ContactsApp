@@ -58,7 +58,7 @@ public abstract class UserDatabase extends RoomDatabase {
             List<Contact> tmpContacts = new ArrayList<>();
             tmpContacts.add(c);*/
 
-            userDao.insert(new User("adam", "123", "13/02/2024"));
+            userDao.insert(new User("adam", "123", "13-02-2024"));
             return null;
         }
     }

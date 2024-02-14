@@ -55,4 +55,14 @@ public class User {
     /*public List<Contact> getContacts() {
         return contacts;
     }*/
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }
