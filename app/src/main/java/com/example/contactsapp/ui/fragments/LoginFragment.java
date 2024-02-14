@@ -1,11 +1,14 @@
 package com.example.contactsapp.ui.fragments;
 
+import android.app.Dialog;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -26,6 +29,7 @@ import java.util.List;
 
 public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
+    private UserViewModel userViewModel;
     private List<User> users = new ArrayList<>();
 
     @Override
@@ -69,7 +73,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void initUsersFromDb() {
-        UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.getAllUsers().observe(this, dbUsers -> users = dbUsers);
     }
 
@@ -122,7 +126,41 @@ public class LoginFragment extends Fragment {
     }
 
     private void forgotPassword() {
-        // TODO: login -> forgotPassword???
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.forgot_password_dialog);
+        Button dialogButton = (Button) dialog.findViewById(R.id.continue_btn);
+        dialogButton.setOnClickListener(v1 -> {
+            EditText userTextInput = (EditText) dialog.findViewById(R.id.user_input);
+            String usernameInput = userTextInput.getText().toString();
+            if(usernameInput.equals("")) {
+                Toast.makeText(getActivity(), Constants.MSG_ENTER_USERNAME,Toast.LENGTH_SHORT).show();
+            } else {
+                User foundUser = isUserExist(usernameInput);
+                if (foundUser == null) {
+                    Toast.makeText(getActivity(), Constants.MSG_NO_USER_NEW_PASS, Toast.LENGTH_SHORT).show();
+                } else {
+                    // changing the dialog appearance
+                    userTextInput.setText("");
+                    userTextInput.setHint(R.string.new_password);
+                    userTextInput.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signup_password, 0, 0, 0);
+                    dialogButton.setText(R.string.save_txt);
+
+                    dialogButton.setOnClickListener(v2 -> {
+                        String newPassword = userTextInput.getText().toString();
+                        if (newPassword.equals("")) {
+                            Toast.makeText(getActivity(), Constants.MSG_ENTER_NEW_PASSWORD, Toast.LENGTH_SHORT).show();
+                        } else {
+                            foundUser.setPassword(newPassword);
+                            userViewModel.update(foundUser);
+                            Toast.makeText(getActivity(), Constants.MSG_PASSWORD_CHANGED, Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
+                        }
+                    });
+
+                }
+            }
+        });
+        dialog.show();
     }
 
     @Override
