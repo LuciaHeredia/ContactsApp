@@ -1,6 +1,8 @@
 package com.example.contactsapp.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +12,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.contactsapp.databinding.FragmentContactsBinding;
+import com.example.contactsapp.utils.PrefManager;
 
 public class ContactsFragment extends Fragment {
 
+    private PrefManager prefManager;
     private FragmentContactsBinding binding;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        prefManager = new PrefManager(context);
+        Log.v("USER", prefManager.getLoginUserData()); // TEST
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

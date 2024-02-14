@@ -1,6 +1,7 @@
 package com.example.contactsapp.ui.fragments;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,19 +24,32 @@ import com.example.contactsapp.data.models.User;
 import com.example.contactsapp.databinding.FragmentLoginBinding;
 import com.example.contactsapp.presentation.UserViewModel;
 import com.example.contactsapp.utils.Constants;
+import com.example.contactsapp.utils.PrefManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
+    private PrefManager prefManager;
     private UserViewModel userViewModel;
     private List<User> users = new ArrayList<>();
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        prefManager = new PrefManager(context);
+        if(prefManager.isUserLogin()){
+            goToContacts();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        initUsersFromDb();
         disableOnBackBtn();
     }
 
@@ -45,14 +59,6 @@ public class LoginFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
-
-        initUsersFromDb();
-
-        return binding.getRoot();
-    }
-
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         // underline text
         binding.signupText.setPaintFlags(binding.signupText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         binding.forgotPasswordText.setPaintFlags(binding.forgotPasswordText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -60,6 +66,7 @@ public class LoginFragment extends Fragment {
         binding.loginButton.setOnClickListener(view1 -> loginAuth());
         binding.signupText.setOnClickListener(view2 -> goToSignup());
         binding.forgotPasswordText.setOnClickListener(view3 -> forgotPassword());
+        return binding.getRoot();
     }
 
     private void disableOnBackBtn() {
@@ -97,6 +104,7 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getActivity(), Constants.MSG_WRONG_PASSWORD,Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS,Toast.LENGTH_LONG).show();
+                    prefManager.saveLoginUserData(foundUser);
                     goToContacts();
                 }
             }
@@ -128,9 +136,9 @@ public class LoginFragment extends Fragment {
     private void forgotPassword() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.forgot_password_dialog);
-        Button dialogButton = (Button) dialog.findViewById(R.id.continue_btn);
+        Button dialogButton = dialog.findViewById(R.id.continue_btn);
         dialogButton.setOnClickListener(v1 -> {
-            EditText userTextInput = (EditText) dialog.findViewById(R.id.user_input);
+            EditText userTextInput = dialog.findViewById(R.id.user_input);
             String usernameInput = userTextInput.getText().toString();
             if(usernameInput.equals("")) {
                 Toast.makeText(getActivity(), Constants.MSG_ENTER_USERNAME,Toast.LENGTH_SHORT).show();
