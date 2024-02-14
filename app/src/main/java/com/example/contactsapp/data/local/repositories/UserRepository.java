@@ -3,16 +3,15 @@ package com.example.contactsapp.data.local.repositories;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.contactsapp.data.local.daos.UserDao;
 import com.example.contactsapp.data.local.database.UserDatabase;
 import com.example.contactsapp.data.models.User;
 
-import java.util.List;
-
 public class UserRepository {
     private UserDao userDao;
+    private MutableLiveData<User> userSearchResults = new MutableLiveData<>();
 
     public UserRepository(Application application) {
         // db call
@@ -33,8 +32,18 @@ public class UserRepository {
         new DeleteUserAsyncTask(userDao).execute(user);
     }
 
-    public LiveData<List<User>> getAllUsers(){
-        return userDao.getAllUsers();
+    public void getUser(String username) {
+        GetUserAsyncTask task = new GetUserAsyncTask(userDao);
+        task.delegate = this;
+        task.execute(username);
+    }
+
+    public void getUserAsyncFinished(User user) {
+        userSearchResults.setValue(user);
+    }
+
+    public MutableLiveData<User> getUserSearchResults() {
+        return userSearchResults;
     }
 
     private static class InsertUserAsyncTask extends AsyncTask<User, Void, Void> {
@@ -45,8 +54,8 @@ public class UserRepository {
         }
 
         @Override
-        protected Void doInBackground(User... users) {
-            userDao.insert(users[0]);
+        protected Void doInBackground(User... params) {
+            userDao.insert(params[0]);
             return null;
         }
     }
@@ -59,8 +68,8 @@ public class UserRepository {
         }
 
         @Override
-        protected Void doInBackground(User... users) {
-            userDao.update(users[0]);
+        protected Void doInBackground(User... params) {
+            userDao.update(params[0]);
             return null;
         }
     }
@@ -73,9 +82,28 @@ public class UserRepository {
         }
 
         @Override
-        protected Void doInBackground(User... users) {
-            userDao.delete(users[0]);
+        protected Void doInBackground(User... params) {
+            userDao.delete(params[0]);
             return null;
+        }
+    }
+
+    private static class GetUserAsyncTask extends AsyncTask<String, Void, User> {
+        private UserDao userDao;
+        private UserRepository delegate = null;
+
+        private GetUserAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override
+        protected User doInBackground(final String... params) {
+            return userDao.getUser(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            delegate.getUserAsyncFinished(user);
         }
     }
 

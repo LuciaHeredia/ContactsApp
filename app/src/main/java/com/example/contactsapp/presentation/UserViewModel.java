@@ -1,26 +1,24 @@
 package com.example.contactsapp.presentation;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.contactsapp.data.local.repositories.UserRepository;
 import com.example.contactsapp.data.models.User;
 
-import java.util.List;
-
 public class UserViewModel extends AndroidViewModel {
 
+    private MutableLiveData<User> userSearchResults;
     private UserRepository repository;
 
     // AndroidViewModel(extends ViewModel) - for using context inside the ViewModel
     public UserViewModel(@NonNull Application application) {
         super(application);
         repository = new UserRepository(application);
+        userSearchResults = repository.getUserSearchResults();
     }
 
     public void insert(User user) {
@@ -35,8 +33,12 @@ public class UserViewModel extends AndroidViewModel {
         repository.delete(user);
     }
 
-    public LiveData<List<User>> getAllUsers() {
-        return repository.getAllUsers();
+    public MutableLiveData<User> getUserResults() {
+        return userSearchResults;
+    }
+
+    public void getUser(String name) {
+        repository.getUser(name);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.example.contactsapp.utils;
 
+import com.example.contactsapp.R;
+
 public class Constants {
 
     //* API *//
@@ -17,4 +19,5 @@ public class Constants {
     public static final String MSG_PASSWORD_CHANGED = "Password changed. Try to Login";
     public static final String MSG_ENTER_USERNAME = "Enter your username";
     public static final String MSG_ENTER_NEW_PASSWORD = "Enter a new password";
+
 }
