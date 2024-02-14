@@ -88,11 +88,6 @@ public class LoginFragment extends Fragment {
         String username = binding.username.getText().toString();
         String password = binding.password.getText().toString();
 
-        // TODO: TEST: print all users
-        for(User user: users) {
-            Log.v("TAG",user.toString());
-        }
-
         if(username.equals("") || password.equals("")) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
         } else {

@@ -24,7 +24,6 @@ public class ContactsFragment extends Fragment {
         super.onAttach(context);
 
         prefManager = new PrefManager(context);
-        Log.v("USER", prefManager.getLoginUserData()); // TEST
     }
 
     @Override
