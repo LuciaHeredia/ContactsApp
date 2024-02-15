@@ -93,7 +93,7 @@ public class LoginFragment extends Fragment {
         String username = binding.username.getText().toString();
         String password = binding.password.getText().toString();
 
-        if(username.equals("") || password.equals("")) {
+        if(username.isEmpty() || password.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
         } else {
             User foundUser = isUserExist(username);
@@ -129,7 +129,7 @@ public class LoginFragment extends Fragment {
         btnDialog.setOnClickListener(v1 -> {
             EditText userTextInputDialog = changePasswordDialog.findViewById(R.id.user_input);
             String usernameInput = userTextInputDialog.getText().toString();
-            if(usernameInput.equals("")) {
+            if(usernameInput.isEmpty()) {
                 Toast.makeText(getActivity(), Constants.MSG_ENTER_USERNAME,Toast.LENGTH_SHORT).show();
             } else {
                 User foundUser = isUserExist(usernameInput);

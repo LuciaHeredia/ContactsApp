@@ -55,7 +55,7 @@ public class SignupFragment extends Fragment {
         String password1 = binding.password.getText().toString();
         String password2 = binding.passwordConfirm.getText().toString();
 
-        if(username.equals("") || password1.equals("") || password2.equals("")) {
+        if(username.isEmpty() || password1.isEmpty() || password2.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
         } else {
             User foundUser = isUserExist(username);
