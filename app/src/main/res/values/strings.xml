@@ -24,5 +24,6 @@
     <string name="gender">Gender:</string>
     <string name="phone">Phone:</string>
     <string name="added_date">Added at:</string>
+    <string name="add">add</string>
 
 </resources>
