@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Contacts</string>
     <string name="continue_txt">CONTINUE</string>
+    <string name="save_txt">SAVE</string>
+
 
     //* Login *//
     <string name="login">Login</string>
@@ -9,7 +11,6 @@
     <string name="not_registered_signup_here">Not registered? Signup Here</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="new_password">Enter new password</string>
-    <string name="save_txt">SAVE</string>
     <string name="change_password">Change Password</string>
     <string name="enter_your_username">Enter your username</string>
 
@@ -25,5 +26,11 @@
     <string name="phone">Phone:</string>
     <string name="added_date">Added at:</string>
     <string name="add">add</string>
+    <string name="new_contact">New Contact</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+
+    //* Add Contact *//
+    <string name="add_contact">Add Contact</string>
 
 </resources>

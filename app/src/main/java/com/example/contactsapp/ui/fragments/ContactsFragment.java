@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.contactsapp.R;
 import com.example.contactsapp.data.entities.User;
 import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.databinding.FragmentContactsBinding;
@@ -51,6 +53,7 @@ public class ContactsFragment extends Fragment {
         binding = FragmentContactsBinding.inflate(inflater, container, false);
         recyclerViewSetup();
         initUsersFromDb();
+        listenerSetup();
         return binding.getRoot();
     }
 
@@ -62,6 +65,10 @@ public class ContactsFragment extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    private void listenerSetup() {
+        binding.btnContactAdd.setOnClickListener(view1 -> goToAddContact());
     }
 
     private void recyclerViewSetup() {
@@ -79,6 +86,11 @@ public class ContactsFragment extends Fragment {
                 adapter.setContacts(userWithContacts.get(0).contacts);
             }
         });
+    }
+
+    private void goToAddContact() {
+        NavHostFragment.findNavController(ContactsFragment.this)
+                .navigate(R.id.action_contactsFragment_to_addContactFragment);
     }
 
     @Override
