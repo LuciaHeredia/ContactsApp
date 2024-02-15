@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ContactsApp</string>
+    <string name="app_name">Contacts</string>
     <string name="continue_txt">CONTINUE</string>
 
     //* Login *//
