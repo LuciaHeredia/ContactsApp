@@ -3,11 +3,16 @@ package com.example.contactsapp.data.local.repositories;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.contactsapp.data.entities.Contact;
+import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.data.local.daos.UserDao;
 import com.example.contactsapp.data.local.database.UserDatabase;
-import com.example.contactsapp.data.models.User;
+import com.example.contactsapp.data.entities.User;
+
+import java.util.List;
 
 public class UserRepository {
     private UserDao userDao;
@@ -20,15 +25,15 @@ public class UserRepository {
         userDao = userDatabase.userDao();
     }
 
-    public void insert(User user){
-        new InsertUserAsyncTask(userDao).execute(user);
+    public void insertUser(UserWithContacts userWithContacts){
+        new InsertUserAsyncTask(userDao).execute(userWithContacts);
     }
 
-    public void update(User user){
+    public void updateUser(User user){
         new UpdateUserAsyncTask(userDao).execute(user);
     }
 
-    public void delete(User user){
+    public void deleteUser(User user){
         new DeleteUserAsyncTask(userDao).execute(user);
     }
 
@@ -36,6 +41,10 @@ public class UserRepository {
         GetUserAsyncTask task = new GetUserAsyncTask(userDao);
         task.delegate = this;
         task.execute(username);
+    }
+
+    public LiveData<List<UserWithContacts>> getUserWithContacts(String username) {
+        return userDao.getUserWithContacts(username);
     }
 
     public void getUserAsyncFinished(User user) {
@@ -46,7 +55,31 @@ public class UserRepository {
         return userSearchResults;
     }
 
-    private static class InsertUserAsyncTask extends AsyncTask<User, Void, Void> {
+    public void insertContact(UserWithContacts userWithContacts) {
+        new InsertContactAsyncTask(userDao).execute(userWithContacts);
+    }
+
+
+    ////////////////////////// AsyncTasks //////////////////////////
+
+    private static class InsertContactAsyncTask extends AsyncTask<UserWithContacts, Void, Void> {
+        private UserDao userDao;
+
+        private InsertContactAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override
+        protected Void doInBackground(UserWithContacts... userWithContacts) {
+            Integer identifier = userWithContacts[0].user.getUserId();
+            Contact contact = userWithContacts[0].contacts.get(0);
+            contact.setContactUserId(identifier);
+            userDao.insertContact(contact);
+            return null;
+        }
+    }
+
+    private static class InsertUserAsyncTask extends AsyncTask<UserWithContacts, Void, Void> {
         private UserDao userDao;
 
         private InsertUserAsyncTask(UserDao userDao) {
@@ -54,8 +87,8 @@ public class UserRepository {
         }
 
         @Override
-        protected Void doInBackground(User... params) {
-            userDao.insert(params[0]);
+        protected Void doInBackground(UserWithContacts... params) {
+            userDao.insertUser(params[0].user);
             return null;
         }
     }
@@ -69,7 +102,7 @@ public class UserRepository {
 
         @Override
         protected Void doInBackground(User... params) {
-            userDao.update(params[0]);
+            userDao.updateUser(params[0]);
             return null;
         }
     }
@@ -83,7 +116,7 @@ public class UserRepository {
 
         @Override
         protected Void doInBackground(User... params) {
-            userDao.delete(params[0]);
+            userDao.deleteUser(params[0]);
             return null;
         }
     }

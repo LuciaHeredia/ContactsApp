@@ -12,7 +12,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.contactsapp.R;
-import com.example.contactsapp.data.models.User;
+import com.example.contactsapp.data.entities.User;
+import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.databinding.FragmentSignupBinding;
 import com.example.contactsapp.presentation.UserViewModel;
 import com.example.contactsapp.utils.Constants;
@@ -49,9 +50,10 @@ public class SignupFragment extends Fragment {
 
     private void observerSetup() {
         userViewModel.getUserResults().observe(this, foundUser -> {
-            if (foundUser==null) {
+            if (foundUser!=null) {
                 Toast.makeText(getActivity(), Constants.MSG_USER_TAKEN,Toast.LENGTH_SHORT).show();
             } else {
+                String username = binding.username.getText().toString();
                 String password1 = binding.password.getText().toString();
                 String password2 = binding.passwordConfirm.getText().toString();
 
@@ -59,8 +61,9 @@ public class SignupFragment extends Fragment {
                     Toast.makeText(getActivity(), Constants.MSG_NO_MATCH_PASSWORD,Toast.LENGTH_SHORT).show();
                 } else {
                     String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-                    User newUser = new User(foundUser.getUsername(), password1, currentDate);
-                    userViewModel.insert(newUser);
+                    User newUser = new User(username, password1, currentDate);
+                    UserWithContacts userWithContacts = new UserWithContacts(newUser, null);
+                    userViewModel.insertUser(userWithContacts);
                     Toast.makeText(getActivity(), Constants.MSG_ADD_SUCCESS,Toast.LENGTH_LONG).show();
                     goToLogin();
                 }

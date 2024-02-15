@@ -9,10 +9,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.contactsapp.data.entities.Contact;
+import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.data.local.daos.UserDao;
-import com.example.contactsapp.data.models.User;
+import com.example.contactsapp.data.entities.User;
 
-@Database(entities = {User.class}, version = 1)
+@Database(entities = {User.class, Contact.class}, version = 1)
 public abstract class UserDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
@@ -54,11 +56,24 @@ public abstract class UserDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            /*Contact c = new Contact("dani", "segev","male", "444","email@ggg","11/02/2023");
-            List<Contact> tmpContacts = new ArrayList<>();
-            tmpContacts.add(c);*/
+            User u = new User("adam", "123", "13-02-2024");
+            UserWithContacts userWithContacts = new UserWithContacts(u, null);
+            userDao.insertUser(userWithContacts.user);
 
-            userDao.insert(new User("adam", "123", "13-02-2024"));
+            // insert contacts
+            Contact c = new Contact("gin", "segev","male", "444","email@ggg","11/02/2023");
+            Contact c2 = new Contact("ron", "sss","male", "444","email@ggg","11/02/2023");
+
+            // if I have only username /////////////////////////////
+            User foundUser = userDao.getUser(u.getUsername());
+            c.setContactUserId(foundUser.getUserId());
+            c2.setContactUserId(foundUser.getUserId());
+            UserWithContacts userWithContacts1 = new UserWithContacts(foundUser, null);
+            userWithContacts1.setContact(c);
+            userWithContacts1.setContact(c2);
+            userDao.insertContact(userWithContacts1.contacts.get(0));
+            userDao.insertContact(userWithContacts1.contacts.get(1));
+
             return null;
         }
     }

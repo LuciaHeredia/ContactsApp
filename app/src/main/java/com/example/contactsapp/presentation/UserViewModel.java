@@ -4,10 +4,14 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.data.local.repositories.UserRepository;
-import com.example.contactsapp.data.models.User;
+import com.example.contactsapp.data.entities.User;
+
+import java.util.List;
 
 public class UserViewModel extends AndroidViewModel {
 
@@ -21,16 +25,16 @@ public class UserViewModel extends AndroidViewModel {
         userSearchResults = repository.getUserSearchResults();
     }
 
-    public void insert(User user) {
-        repository.insert(user);
+    public void insertUser(UserWithContacts userWithContacts) {
+        repository.insertUser(userWithContacts);
     }
 
-    public void update(User user) {
-        repository.update(user);
+    public void updateUser(User user) {
+        repository.updateUser(user);
     }
 
-    public void delete(User user) {
-        repository.delete(user);
+    public void deleteUser(User user) {
+        repository.deleteUser(user);
     }
 
     public MutableLiveData<User> getUserResults() {
@@ -39,6 +43,14 @@ public class UserViewModel extends AndroidViewModel {
 
     public void getUser(String name) {
         repository.getUser(name);
+    }
+
+    public LiveData<List<UserWithContacts>> getUserWithContacts(String username) {
+        return repository.getUserWithContacts(username);
+    }
+
+    public void insertContact(UserWithContacts userWithContacts) {
+        repository.insertContact(userWithContacts);
     }
 
 }

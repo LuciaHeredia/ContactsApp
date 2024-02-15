@@ -83,7 +83,7 @@ public class LoginFragment extends Fragment {
 
     private void observerSetup() {
         userViewModel.getUserResults().observe(this, foundUser -> {
-            if(ObserverType.equals(String.valueOf(R.string.login))) {
+            if (ObserverType.equals(String.valueOf(R.string.login))) {
                 if (foundUser == null) {
                     Toast.makeText(getActivity(), Constants.MSG_USER_NOT_FOUND, Toast.LENGTH_SHORT).show();
                 } else {
@@ -97,7 +97,7 @@ public class LoginFragment extends Fragment {
                     }
                 }
             } else {
-                if (foundUser==null) {
+                if (foundUser == null) {
                     Toast.makeText(getActivity(), Constants.MSG_NO_USER_NEW_PASS, Toast.LENGTH_SHORT).show();
                 } else {
                     Button btnDialog = changePasswordDialog.findViewById(R.id.continue_btn);
@@ -115,7 +115,7 @@ public class LoginFragment extends Fragment {
                             Toast.makeText(getActivity(), Constants.MSG_ENTER_NEW_PASSWORD, Toast.LENGTH_SHORT).show();
                         } else {
                             foundUser.setPassword(newPassword);
-                            userViewModel.update(foundUser);
+                            userViewModel.updateUser(foundUser);
                             Toast.makeText(getActivity(), Constants.MSG_PASSWORD_CHANGED, Toast.LENGTH_LONG).show();
                             changePasswordDialog.dismiss();
                         }

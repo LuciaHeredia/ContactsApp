@@ -3,7 +3,7 @@ package com.example.contactsapp.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.contactsapp.data.models.User;
+import com.example.contactsapp.data.entities.User;
 
 public class PrefManager {
 
