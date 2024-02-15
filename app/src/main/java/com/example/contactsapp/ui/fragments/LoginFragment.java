@@ -18,17 +18,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.contactsapp.R;
+import com.example.contactsapp.data.entities.User;
 import com.example.contactsapp.databinding.FragmentLoginBinding;
 import com.example.contactsapp.presentation.UserViewModel;
 import com.example.contactsapp.utils.Constants;
 import com.example.contactsapp.utils.PrefManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
     private PrefManager prefManager;
     private UserViewModel userViewModel;
-    private String ObserverType;
-    private Dialog changePasswordDialog;
+    private List<User> allUsers;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -44,8 +47,6 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        observerSetup();
         disableOnBackBtn();
     }
 
@@ -55,6 +56,7 @@ public class LoginFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
+        initUsersFromDb();
         underlineTextSetup();
         loginListenerSetup();
         return binding.getRoot();
@@ -81,28 +83,59 @@ public class LoginFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    private void observerSetup() {
-        userViewModel.getUserResults().observe(this, foundUser -> {
-            if (ObserverType.equals(String.valueOf(R.string.login))) {
-                if (foundUser == null) {
-                    Toast.makeText(getActivity(), Constants.MSG_USER_NOT_FOUND, Toast.LENGTH_SHORT).show();
-                } else {
-                    String password = binding.password.getText().toString();
-                    if (!foundUser.getPassword().equals(password)) {
-                        Toast.makeText(getActivity(), Constants.MSG_WRONG_PASSWORD, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS, Toast.LENGTH_LONG).show();
-                        prefManager.saveLoginUserData(foundUser);
-                        goToContacts();
-                    }
-                }
+    private void initUsersFromDb() {
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        allUsers = new ArrayList<>();
+        userViewModel.getAllUsers().observe(this, dbUsers -> allUsers = dbUsers);
+    }
+
+    private void loginAuth() {
+        String username = binding.username.getText().toString();
+        String password = binding.password.getText().toString();
+
+        if(username.equals("") || password.equals("")) {
+            Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
+        } else {
+            User foundUser = isUserExist(username);
+            if (foundUser == null) {
+                Toast.makeText(getActivity(), Constants.MSG_USER_NOT_FOUND, Toast.LENGTH_SHORT).show();
             } else {
+                if (!foundUser.getPassword().equals(password)) {
+                    Toast.makeText(getActivity(), Constants.MSG_WRONG_PASSWORD, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS, Toast.LENGTH_LONG).show();
+                    prefManager.saveLoginUserData(foundUser);
+                    goToContacts();
+                }
+            }
+        }
+    }
+
+    private User isUserExist(String username) {
+        if(allUsers != null) {
+            for(User user: allUsers) {
+                if(user.getUsername().equals(username)) {
+                    return user;
+                }
+            }
+        }
+        return null;
+    }
+
+    private void changePassword() {
+        Dialog changePasswordDialog = new Dialog(getActivity());
+        changePasswordDialog.setContentView(R.layout.forgot_password_dialog);
+        Button btnDialog = changePasswordDialog.findViewById(R.id.continue_btn);
+        btnDialog.setOnClickListener(v1 -> {
+            EditText userTextInputDialog = changePasswordDialog.findViewById(R.id.user_input);
+            String usernameInput = userTextInputDialog.getText().toString();
+            if(usernameInput.equals("")) {
+                Toast.makeText(getActivity(), Constants.MSG_ENTER_USERNAME,Toast.LENGTH_SHORT).show();
+            } else {
+                User foundUser = isUserExist(usernameInput);
                 if (foundUser == null) {
                     Toast.makeText(getActivity(), Constants.MSG_NO_USER_NEW_PASS, Toast.LENGTH_SHORT).show();
                 } else {
-                    Button btnDialog = changePasswordDialog.findViewById(R.id.continue_btn);
-                    EditText userTextInputDialog = changePasswordDialog.findViewById(R.id.user_input);
-
                     // changing the dialog appearance
                     userTextInputDialog.setText("");
                     userTextInputDialog.setHint(R.string.new_password);
@@ -121,34 +154,6 @@ public class LoginFragment extends Fragment {
                         }
                     });
                 }
-            }
-        });
-    }
-
-    private void loginAuth() {
-        String username = binding.username.getText().toString();
-        String password = binding.password.getText().toString();
-
-        if(username.equals("") || password.equals("")) {
-            Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
-        } else {
-            ObserverType = String.valueOf(R.string.login);
-            userViewModel.getUser(username);
-        }
-    }
-
-    private void changePassword() {
-        changePasswordDialog = new Dialog(getActivity());
-        changePasswordDialog.setContentView(R.layout.forgot_password_dialog);
-        Button btnDialog = changePasswordDialog.findViewById(R.id.continue_btn);
-        btnDialog.setOnClickListener(v1 -> {
-            EditText userTextInputDialog = changePasswordDialog.findViewById(R.id.user_input);
-            String usernameInput = userTextInputDialog.getText().toString();
-            if(usernameInput.equals("")) {
-                Toast.makeText(getActivity(), Constants.MSG_ENTER_USERNAME,Toast.LENGTH_SHORT).show();
-            } else {
-                ObserverType = String.valueOf(R.string.change_password);
-                userViewModel.getUser(usernameInput);
             }
         });
         changePasswordDialog.show();

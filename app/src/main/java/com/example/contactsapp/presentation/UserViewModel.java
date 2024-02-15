@@ -17,12 +17,14 @@ public class UserViewModel extends AndroidViewModel {
 
     private MutableLiveData<User> userSearchResults;
     private UserRepository repository;
+    private LiveData<List<User>> allUsers;
 
     // AndroidViewModel(extends ViewModel) - for using context inside the ViewModel
     public UserViewModel(@NonNull Application application) {
         super(application);
         repository = new UserRepository(application);
         userSearchResults = repository.getUserSearchResults();
+        allUsers = repository.getAllUsers();
     }
 
     public void insertUser(UserWithContacts userWithContacts) {
@@ -35,6 +37,10 @@ public class UserViewModel extends AndroidViewModel {
 
     public void deleteUser(User user) {
         repository.deleteUser(user);
+    }
+
+    public LiveData<List<User>> getAllUsers() {
+        return allUsers;
     }
 
     public MutableLiveData<User> getUserResults() {

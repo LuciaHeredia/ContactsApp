@@ -19,20 +19,15 @@ import com.example.contactsapp.presentation.UserViewModel;
 import com.example.contactsapp.utils.Constants;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class SignupFragment extends Fragment {
     private FragmentSignupBinding binding;
     private UserViewModel userViewModel;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        observerSetup();
-    }
+    private List<User> allUsers;
 
     @Override
     public View onCreateView(
@@ -40,6 +35,7 @@ public class SignupFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentSignupBinding.inflate(inflater, container, false);
+        initUsersFromDb();
         listenerSetup();
         return binding.getRoot();
     }
@@ -48,15 +44,24 @@ public class SignupFragment extends Fragment {
         binding.signupButton.setOnClickListener(view1 -> signupAuth());
     }
 
-    private void observerSetup() {
-        userViewModel.getUserResults().observe(this, foundUser -> {
+    private void initUsersFromDb() {
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        allUsers = new ArrayList<>();
+        userViewModel.getAllUsers().observe(this, dbUsers -> allUsers = dbUsers);
+    }
+
+    private void signupAuth() {
+        String username = binding.username.getText().toString();
+        String password1 = binding.password.getText().toString();
+        String password2 = binding.passwordConfirm.getText().toString();
+
+        if(username.equals("") || password1.equals("") || password2.equals("")) {
+            Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
+        } else {
+            User foundUser = isUserExist(username);
             if (foundUser!=null) {
                 Toast.makeText(getActivity(), Constants.MSG_USER_TAKEN,Toast.LENGTH_SHORT).show();
             } else {
-                String username = binding.username.getText().toString();
-                String password1 = binding.password.getText().toString();
-                String password2 = binding.passwordConfirm.getText().toString();
-
                 if(!password1.equals(password2)) {
                     Toast.makeText(getActivity(), Constants.MSG_NO_MATCH_PASSWORD,Toast.LENGTH_SHORT).show();
                 } else {
@@ -68,19 +73,18 @@ public class SignupFragment extends Fragment {
                     goToLogin();
                 }
             }
-        });
+        }
     }
 
-    private void signupAuth() {
-        String username = binding.username.getText().toString();
-        String password1 = binding.password.getText().toString();
-        String password2 = binding.passwordConfirm.getText().toString();
-
-        if(username.equals("") || password1.equals("") || password2.equals("")) {
-            Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
-        } else {
-            userViewModel.getUser(username);
+    private User isUserExist(String username) {
+        if(allUsers != null) {
+            for(User user: allUsers) {
+                if(user.getUsername().equals(username)) {
+                    return user;
+                }
+            }
         }
+        return null;
     }
 
     private void goToLogin() {

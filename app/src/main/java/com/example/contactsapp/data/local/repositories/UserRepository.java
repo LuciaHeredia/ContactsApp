@@ -16,6 +16,7 @@ import java.util.List;
 
 public class UserRepository {
     private UserDao userDao;
+    private LiveData<List<User>> allUsers;
     private MutableLiveData<User> userSearchResults = new MutableLiveData<>();
 
     public UserRepository(Application application) {
@@ -23,6 +24,8 @@ public class UserRepository {
         UserDatabase userDatabase = UserDatabase.getInstance(application);
         // db access with dao
         userDao = userDatabase.userDao();
+        // db data
+        allUsers = userDao.getAllUsers();
     }
 
     public void insertUser(UserWithContacts userWithContacts){
@@ -35,6 +38,10 @@ public class UserRepository {
 
     public void deleteUser(User user){
         new DeleteUserAsyncTask(userDao).execute(user);
+    }
+
+    public LiveData<List<User>> getAllUsers(){
+        return allUsers;
     }
 
     public void getUser(String username) {
