@@ -20,5 +20,9 @@
 
     //* Contacts *//
     <string name="contacts">Contacts</string>
+    <string name="contact">Contact</string>
+    <string name="gender">Gender:</string>
+    <string name="phone">Phone:</string>
+    <string name="added_date">Added at:</string>
 
 </resources>
