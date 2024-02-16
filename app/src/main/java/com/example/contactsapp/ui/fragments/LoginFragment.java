@@ -96,7 +96,7 @@ public class LoginFragment extends Fragment {
         if(username.isEmpty() || password.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
         } else {
-            User foundUser = isUserExist(username);
+            User foundUser = userViewModel.isUserExist(allUsers, username);
             if (foundUser == null) {
                 Toast.makeText(getActivity(), Constants.MSG_USER_NOT_FOUND, Toast.LENGTH_SHORT).show();
             } else {
@@ -111,17 +111,6 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    private User isUserExist(String username) {
-        if(allUsers != null) {
-            for(User user: allUsers) {
-                if(user.getUsername().equals(username)) {
-                    return user;
-                }
-            }
-        }
-        return null;
-    }
-
     private void changePassword() {
         Dialog changePasswordDialog = new Dialog(getActivity());
         changePasswordDialog.setContentView(R.layout.forgot_password_dialog);
@@ -132,7 +121,7 @@ public class LoginFragment extends Fragment {
             if(usernameInput.isEmpty()) {
                 Toast.makeText(getActivity(), Constants.MSG_ENTER_USERNAME,Toast.LENGTH_SHORT).show();
             } else {
-                User foundUser = isUserExist(usernameInput);
+                User foundUser = userViewModel.isUserExist(allUsers, usernameInput);
                 if (foundUser == null) {
                     Toast.makeText(getActivity(), Constants.MSG_NO_USER_NEW_PASS, Toast.LENGTH_SHORT).show();
                 } else {

@@ -57,7 +57,7 @@ public class SignupFragment extends Fragment {
         if(username.isEmpty() || password1.isEmpty() || password2.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
         } else {
-            User foundUser = isUserExist(username);
+            User foundUser = userViewModel.isUserExist(allUsers, username);
             if (foundUser!=null) {
                 Toast.makeText(getActivity(), Constants.MSG_USER_TAKEN,Toast.LENGTH_SHORT).show();
             } else {
@@ -72,17 +72,6 @@ public class SignupFragment extends Fragment {
                 }
             }
         }
-    }
-
-    private User isUserExist(String username) {
-        if(allUsers != null) {
-            for(User user: allUsers) {
-                if(user.getUsername().equals(username)) {
-                    return user;
-                }
-            }
-        }
-        return null;
     }
 
     private void goToLogin() {

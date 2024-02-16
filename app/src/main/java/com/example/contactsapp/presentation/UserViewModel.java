@@ -4,8 +4,11 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.data.local.repositories.UserRepository;
@@ -52,6 +55,17 @@ public class UserViewModel extends AndroidViewModel {
     }
     public void getUserById(Integer userId) {
         repository.getUserById(userId);
+    }
+
+    public User isUserExist(List<User> foundUsers, String username) {
+        if(foundUsers != null) {
+            for(User user: foundUsers) {
+                if(user.getUsername().equals(username)) {
+                    return user;
+                }
+            }
+        }
+        return null;
     }
 
 }
