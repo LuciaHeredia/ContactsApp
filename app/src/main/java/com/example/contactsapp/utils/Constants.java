@@ -5,7 +5,7 @@ public class Constants {
     //* API *//
     public static final String BASE_URL = "https://api.genderize.io/";
 
-    //* Login/Signup *//
+    //* Toast MSG *//
     public static final String MSG_FIELDS_MANDATORY = "All fields are mandatory";
     public static final String MSG_USER_NOT_FOUND = "User doesn't exist, Signup first";
     public static final String MSG_USER_TAKEN = "Username already exists";
@@ -17,6 +17,6 @@ public class Constants {
     public static final String MSG_PASSWORD_CHANGED = "Password changed. Try to Login";
     public static final String MSG_ENTER_USERNAME = "Enter your username";
     public static final String MSG_ENTER_NEW_PASSWORD = "Enter a new password";
-    public static final String MSG_CONTACT_ADD_SUCCESS = "Added successfully!";
+    public static final String MSG_CONTACT_ADD_SUCCESS = "New Contact Added";
 
 }

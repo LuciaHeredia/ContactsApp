@@ -29,6 +29,7 @@
     <string name="new_contact">New Contact</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="logout">Logout</string>
 
     //* Add Contact *//
     <string name="add_contact">Add Contact</string>

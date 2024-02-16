@@ -3,11 +3,15 @@ package com.example.contactsapp.ui.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -19,7 +23,7 @@ import com.example.contactsapp.presentation.UserViewModel;
 import com.example.contactsapp.utils.ContactAdapter;
 import com.example.contactsapp.utils.PrefManager;
 
-public class ContactsFragment extends Fragment {
+public class ContactsFragment extends Fragment implements MenuProvider {
 
     private PrefManager prefManager;
     private FragmentContactsBinding binding;
@@ -36,7 +40,6 @@ public class ContactsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         disableOnBackBtn();
     }
 
@@ -45,6 +48,7 @@ public class ContactsFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentContactsBinding.inflate(inflater, container, false);
+        getActivity().addMenuProvider(this, getViewLifecycleOwner(), getLifecycle().getCurrentState().RESUMED);
         recyclerViewSetup();
         initContactsFromDb();
         listenerSetup();
@@ -81,6 +85,32 @@ public class ContactsFragment extends Fragment {
     private void goToAddContact() {
         NavHostFragment.findNavController(ContactsFragment.this)
                 .navigate(R.id.action_contactsFragment_to_addContactFragment);
+    }
+
+    private void goToSettings() {
+        NavHostFragment.findNavController(ContactsFragment.this)
+                .navigate(R.id.action_contactsFragment_to_settingsFragment);
+    }
+
+    private void goToLogin() {
+        NavHostFragment.findNavController(ContactsFragment.this)
+                .navigate(R.id.action_contactsFragment_to_loginFragment);
+    }
+
+    @Override
+    public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.contacts_menu, menu);
+    }
+
+    @Override
+    public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+        if(menuItem.getItemId()==R.id.contact_settings) {
+            goToSettings();
+        } else { // Logout
+            prefManager.userLogout();
+            goToLogin();
+        }
+        return true;
     }
 
     @Override

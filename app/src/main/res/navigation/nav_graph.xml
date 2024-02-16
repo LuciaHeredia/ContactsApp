@@ -37,6 +37,12 @@
         <action
             android:id="@+id/action_contactsFragment_to_addContactFragment"
             app:destination="@id/addContactFragment" />
+        <action
+            android:id="@+id/action_contactsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_contactsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
@@ -46,6 +52,16 @@
         tools:layout="@layout/fragment_add_contact">
         <action
             android:id="@+id/action_addContactFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.contactsapp.ui.fragments.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_contactsFragment"
             app:destination="@id/contactsFragment" />
     </fragment>
 
