@@ -29,10 +29,10 @@ public class User {
      * A Mock User
      * @param userId from an already existing user.
      */
-    /*@Ignore
+    @Ignore
     public User(Integer userId) {
         this.userId = userId;
-    }*/
+    }
 
     //* Setters *//
 
