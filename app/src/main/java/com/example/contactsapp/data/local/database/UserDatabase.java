@@ -2,7 +2,6 @@ package com.example.contactsapp.data.local.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -11,7 +10,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.contactsapp.data.entities.Contact;
-import com.example.contactsapp.data.entities.UserWithContacts;
+import com.example.contactsapp.data.local.daos.ContactDao;
 import com.example.contactsapp.data.local.daos.UserDao;
 import com.example.contactsapp.data.entities.User;
 
@@ -19,6 +18,7 @@ import com.example.contactsapp.data.entities.User;
 public abstract class UserDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
+    public abstract ContactDao contactDao();
 
     // Singleton
     private static UserDatabase instance;
@@ -50,9 +50,11 @@ public abstract class UserDatabase extends RoomDatabase {
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void,Void,Void> {
         private UserDao userDao;
+        private ContactDao contactDao;
 
         private PopulateDbAsyncTask(UserDatabase db) {
             userDao = db.userDao();
+            contactDao = db.contactDao();
         }
 
         @Override
@@ -68,8 +70,8 @@ public abstract class UserDatabase extends RoomDatabase {
             Integer userId = userDao.getUserByUsername(u.getUsername()).getUserId();
             c.setContactUserId(userId);
             c2.setContactUserId(userId);
-            userDao.insertContact(c);
-            userDao.insertContact(c2);
+            contactDao.insertContact(c);
+            contactDao.insertContact(c2);
 
             return null;
         }

@@ -68,31 +68,7 @@ public class UserRepository {
     }
 
 
-    /* Contact */
-
-    public void insertContact(UserWithContacts userWithContacts) {
-        new InsertContactAsyncTask(userDao).execute(userWithContacts);
-    }
-
-
     ////////////////////////// AsyncTasks //////////////////////////
-
-    private static class InsertContactAsyncTask extends AsyncTask<UserWithContacts, Void, Void> {
-        private UserDao userDao;
-
-        private InsertContactAsyncTask(UserDao userDao) {
-            this.userDao = userDao;
-        }
-
-        @Override
-        protected Void doInBackground(UserWithContacts... userWithContacts) {
-            Integer userId = userWithContacts[0].getUser().getUserId();
-            Contact contact = userWithContacts[0].getContacts().get(0);
-            contact.setContactUserId(userId);
-            userDao.insertContact(contact);
-            return null;
-        }
-    }
 
     private static class InsertUserAsyncTask extends AsyncTask<User, Void, Void> {
         private UserDao userDao;

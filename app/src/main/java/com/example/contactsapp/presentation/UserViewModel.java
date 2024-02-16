@@ -61,11 +61,4 @@ public class UserViewModel extends AndroidViewModel {
         return repository.getUserWithContacts(userId);
     }
 
-
-    /* Contact */
-
-    public void insertContact(UserWithContacts userWithContacts) {
-        repository.insertContact(userWithContacts);
-    }
-
 }

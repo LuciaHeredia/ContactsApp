@@ -16,6 +16,7 @@ import com.example.contactsapp.R;
 import com.example.contactsapp.data.entities.Contact;
 import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.databinding.FragmentAddContactBinding;
+import com.example.contactsapp.presentation.ContactViewModel;
 import com.example.contactsapp.presentation.UserViewModel;
 import com.example.contactsapp.utils.Constants;
 import com.example.contactsapp.utils.PrefManager;
@@ -28,6 +29,7 @@ public class AddContactFragment extends Fragment {
     private PrefManager prefManager;
     private FragmentAddContactBinding binding;
     private UserViewModel userViewModel;
+    private ContactViewModel contactViewModel;
     private Contact contactToAdd;
 
     @Override
@@ -44,6 +46,7 @@ public class AddContactFragment extends Fragment {
     ) {
         binding = FragmentAddContactBinding.inflate(inflater, container, false);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
         observeSetup();
         listenerSetup();
         return binding.getRoot();
@@ -75,7 +78,7 @@ public class AddContactFragment extends Fragment {
         userViewModel.getUserByIdResults().observe(this, user -> {
             UserWithContacts userWithContacts = new UserWithContacts(user, null);
             userWithContacts.setContact(contactToAdd);
-            userViewModel.insertContact(userWithContacts);
+            contactViewModel.insertContact(userWithContacts);
             Toast.makeText(getActivity(), Constants.MSG_CONTACT_ADD_SUCCESS,Toast.LENGTH_SHORT).show();
             goToContacts();
         });
