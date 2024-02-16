@@ -9,25 +9,19 @@ import android.view.ViewGroup;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.contactsapp.R;
-import com.example.contactsapp.data.entities.User;
-import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.databinding.FragmentContactsBinding;
 import com.example.contactsapp.presentation.UserViewModel;
 import com.example.contactsapp.utils.ContactAdapter;
 import com.example.contactsapp.utils.PrefManager;
 
-import java.util.List;
-
 public class ContactsFragment extends Fragment {
 
     private PrefManager prefManager;
-    private User user;
     private FragmentContactsBinding binding;
     private UserViewModel userViewModel;
     private ContactAdapter adapter;
@@ -80,12 +74,8 @@ public class ContactsFragment extends Fragment {
 
     private void initContactsFromDb() {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        userViewModel.getUserWithContacts(prefManager.getLoginUserData()).observe(this, new Observer<List<UserWithContacts>>() {
-            @Override
-            public void onChanged(List<UserWithContacts> userWithContacts) {
-                adapter.setContacts(userWithContacts.get(0).getContacts());
-            }
-        });
+        userViewModel.getUserWithContacts(prefManager.getLoginUserData()).observe(this,
+                userWithContacts -> adapter.setContacts(userWithContacts.get(0).getContacts()));
     }
 
     private void goToAddContact() {

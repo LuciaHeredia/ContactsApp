@@ -57,7 +57,7 @@ public abstract class UserDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            User u = new User("adam", "123", "13-02-2024");
+            User u = new User("adam", "123", "13-02-2024"); // userId = 1
             userDao.insertUser(u);
 
             // insert contacts
@@ -65,7 +65,7 @@ public abstract class UserDatabase extends RoomDatabase {
             Contact c2 = new Contact("ron", "sss","male", "444","email@ggg","11/02/2023");
 
             // i have the userId from shared preferences ////
-            Integer userId = userDao.getUser(u.getUsername()).getUserId();
+            Integer userId = userDao.getUserByUsername(u.getUsername()).getUserId();
             c.setContactUserId(userId);
             c2.setContactUserId(userId);
             userDao.insertContact(c);

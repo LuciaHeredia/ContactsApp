@@ -16,7 +16,9 @@ public class User {
 
     private String date;
 
-    // Constructor
+    /**
+     * Constructor
+     */
     public User(String username, String password, String date) {
         this.username = username;
         this.password = password;

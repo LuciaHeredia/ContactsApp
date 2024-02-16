@@ -25,7 +25,7 @@ public class UserViewModel extends AndroidViewModel {
         super(application);
         repository = new UserRepository(application);
         allUsers = repository.getAllUsers();
-        userSearchResults = repository.getUserSearchResults();
+        userSearchResults = repository.getUserByIdSearchResults();
     }
 
 
@@ -47,11 +47,11 @@ public class UserViewModel extends AndroidViewModel {
         return allUsers;
     }
 
-    public MutableLiveData<User> getUserResults() {
+    public MutableLiveData<User> getUserByIdResults() {
         return userSearchResults;
     }
-    public void getUser(String name) {
-        repository.getUser(name);
+    public void getUserById(Integer userId) {
+        repository.getUserById(userId);
     }
 
 

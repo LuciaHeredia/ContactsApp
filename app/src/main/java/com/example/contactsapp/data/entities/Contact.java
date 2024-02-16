@@ -27,7 +27,9 @@ public class Contact {
 
     private String date;
 
-    // Constructor
+    /**
+     * Constructor
+     */
     public Contact(String firstName, String lastName, String gender, String phone, String email, String date) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -14,7 +14,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.contactsapp.R;
 import com.example.contactsapp.data.entities.Contact;
-import com.example.contactsapp.data.entities.User;
 import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.databinding.FragmentAddContactBinding;
 import com.example.contactsapp.presentation.UserViewModel;
@@ -29,6 +28,7 @@ public class AddContactFragment extends Fragment {
     private PrefManager prefManager;
     private FragmentAddContactBinding binding;
     private UserViewModel userViewModel;
+    private Contact contactToAdd;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -44,6 +44,7 @@ public class AddContactFragment extends Fragment {
     ) {
         binding = FragmentAddContactBinding.inflate(inflater, container, false);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        observeSetup();
         listenerSetup();
         return binding.getRoot();
     }
@@ -58,24 +59,26 @@ public class AddContactFragment extends Fragment {
         String gender = "male"; // TODO: from API
         String phone = binding.etPhone.getText().toString();
         String email = binding.etEmail.getText().toString();
-        String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
         if(fName.isEmpty() || lName.isEmpty() || phone.isEmpty() || email.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
         } else {
             // TODO: check if fields correct: fName, lName, phone, email
             // TODO: get gender from api
-            Contact contact = new Contact(fName, lName, gender, phone, email, date);
-            saveSettings(contact);
+            contactToAdd = new Contact(fName, lName, gender, phone, email, date);
+            userViewModel.getUserById(prefManager.getLoginUserData());
         }
     }
 
-    private void saveSettings(Contact contact) {
-        //UserWithContacts userWithContacts = new UserWithContacts();
-        //userWithContacts.setContact(contact);
-        //userViewModel.insertContact(userWithContacts);*/
-        // message contact saved
-        goToContacts();
+    private void observeSetup() {
+        userViewModel.getUserByIdResults().observe(this, user -> {
+            UserWithContacts userWithContacts = new UserWithContacts(user, null);
+            userWithContacts.setContact(contactToAdd);
+            userViewModel.insertContact(userWithContacts);
+            Toast.makeText(getActivity(), Constants.MSG_CONTACT_ADD_SUCCESS,Toast.LENGTH_SHORT).show();
+            goToContacts();
+        });
     }
 
     private void goToContacts() {

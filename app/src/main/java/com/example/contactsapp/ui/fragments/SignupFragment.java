@@ -13,7 +13,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.contactsapp.R;
 import com.example.contactsapp.data.entities.User;
-import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.databinding.FragmentSignupBinding;
 import com.example.contactsapp.presentation.UserViewModel;
 import com.example.contactsapp.utils.Constants;
@@ -65,10 +64,10 @@ public class SignupFragment extends Fragment {
                 if(!password1.equals(password2)) {
                     Toast.makeText(getActivity(), Constants.MSG_NO_MATCH_PASSWORD,Toast.LENGTH_SHORT).show();
                 } else {
-                    String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                    String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
                     User newUser = new User(username, password1, currentDate);
                     userViewModel.insertUser(newUser);
-                    Toast.makeText(getActivity(), Constants.MSG_ADD_SUCCESS,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), Constants.MSG_USER_ADD_SUCCESS,Toast.LENGTH_LONG).show();
                     goToLogin();
                 }
             }

@@ -17,6 +17,9 @@ public class UserWithContacts {
     )
     public List<Contact> contacts;
 
+    /**
+     * Constructor
+     */
     public UserWithContacts(User user, List<Contact> contacts) {
         this.user = user;
         this.contacts = contacts;

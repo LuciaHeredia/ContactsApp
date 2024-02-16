@@ -2,7 +2,6 @@ package com.example.contactsapp.data.local.repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -49,16 +48,16 @@ public class UserRepository {
         return allUsers;
     }
 
-    public void getUser(String username) {
+    public void getUserById(Integer userId) {
         GetUserAsyncTask task = new GetUserAsyncTask(userDao);
         task.delegate = this;
-        task.execute(username);
+        task.execute(userId);
     }
     public void getUserAsyncFinished(User user) {
         userSearchResults.setValue(user);
     }
 
-    public MutableLiveData<User> getUserSearchResults() {
+    public MutableLiveData<User> getUserByIdSearchResults() {
         return userSearchResults;
     }
 
@@ -137,7 +136,7 @@ public class UserRepository {
         }
     }
 
-    private static class GetUserAsyncTask extends AsyncTask<String, Void, User> {
+    private static class GetUserAsyncTask extends AsyncTask<Integer, Void, User> {
         private UserDao userDao;
         private UserRepository delegate = null;
 
@@ -146,8 +145,8 @@ public class UserRepository {
         }
 
         @Override
-        protected User doInBackground(final String... params) {
-            return userDao.getUser(params[0]);
+        protected User doInBackground(final Integer... integers) {
+            return userDao.getUserById(integers[0]);
         }
 
         @Override
