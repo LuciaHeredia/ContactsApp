@@ -86,7 +86,7 @@
                 android:background="@drawable/custom_edit_text"
                 android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="8dp"
-                android:hint="@string/email"
+                android:hint="@string/signup_email"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
