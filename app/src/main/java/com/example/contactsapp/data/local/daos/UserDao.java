@@ -8,16 +8,12 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.example.contactsapp.data.entities.Contact;
 import com.example.contactsapp.data.entities.User;
-import com.example.contactsapp.data.entities.UserWithContacts;
 
 import java.util.List;
 
 @Dao
 public interface UserDao {
-
-    /* User */
 
     @Transaction
     @Insert
@@ -41,11 +37,5 @@ public interface UserDao {
     @Transaction
     @Query("SELECT * FROM user_table WHERE username = :username")
     User getUserByUsername(String username);
-
-    /* UserWithContacts */
-
-    @Transaction
-    @Query("SELECT * FROM user_table WHERE userId = :userId")
-    LiveData<List<UserWithContacts>> getUserWithContacts(Integer userId);
 
 }

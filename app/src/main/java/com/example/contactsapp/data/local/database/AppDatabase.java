@@ -13,22 +13,24 @@ import com.example.contactsapp.data.entities.Contact;
 import com.example.contactsapp.data.local.daos.ContactDao;
 import com.example.contactsapp.data.local.daos.UserDao;
 import com.example.contactsapp.data.entities.User;
+import com.example.contactsapp.data.local.daos.UserWithContactsDao;
 
 @Database(entities = {User.class, Contact.class}, version = 1)
-public abstract class UserDatabase extends RoomDatabase {
+public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
     public abstract ContactDao contactDao();
+    public abstract UserWithContactsDao userWithContactsDao();
 
     // Singleton
-    private static UserDatabase instance;
+    private static AppDatabase instance;
 
     // synchronized -> only one thread at a time
-    public static synchronized UserDatabase getInstance(Context context) {
+    public static synchronized AppDatabase getInstance(Context context) {
         if(instance == null) {
-            // creating new user database
+            // creating new app database
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    UserDatabase.class, "user_database")
+                    AppDatabase.class, "app_database")
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallBack)
                     .build();
@@ -51,26 +53,29 @@ public abstract class UserDatabase extends RoomDatabase {
     private static class PopulateDbAsyncTask extends AsyncTask<Void,Void,Void> {
         private UserDao userDao;
         private ContactDao contactDao;
+        private UserWithContactsDao userWithContactsDao;
 
-        private PopulateDbAsyncTask(UserDatabase db) {
+        private PopulateDbAsyncTask(AppDatabase db) {
             userDao = db.userDao();
             contactDao = db.contactDao();
+            userWithContactsDao = db.userWithContactsDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+            // insert user
             User u = new User("adam", "123", "13-02-2024"); // userId = 1
             userDao.insertUser(u);
 
             // insert contacts
-            Contact c = new Contact("gin", "segev","male", "444","email@ggg","11/02/2023");
+            Contact c1 = new Contact("gin", "segev","male", "444","email@ggg","11/02/2023");
             Contact c2 = new Contact("ron", "sss","male", "444","email@ggg","11/02/2023");
 
-            // i have the userId from shared preferences ////
+            // i have the userId from shared preferences
             Integer userId = userDao.getUserByUsername(u.getUsername()).getUserId();
-            c.setContactUserId(userId);
+            c1.setContactUserId(userId);
             c2.setContactUserId(userId);
-            contactDao.insertContact(c);
+            contactDao.insertContact(c1);
             contactDao.insertContact(c2);
 
             return null;

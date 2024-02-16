@@ -54,11 +54,4 @@ public class UserViewModel extends AndroidViewModel {
         repository.getUserById(userId);
     }
 
-
-    /* UserWithContacts */
-
-    public LiveData<List<UserWithContacts>> getUserWithContacts(Integer userId) {
-        return repository.getUserWithContacts(userId);
-    }
-
 }

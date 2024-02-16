@@ -6,10 +6,9 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.contactsapp.data.entities.Contact;
 import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.data.local.daos.UserDao;
-import com.example.contactsapp.data.local.database.UserDatabase;
+import com.example.contactsapp.data.local.database.AppDatabase;
 import com.example.contactsapp.data.entities.User;
 
 import java.util.List;
@@ -22,9 +21,9 @@ public class UserRepository {
 
     public UserRepository(Application application) {
         // db call
-        UserDatabase userDatabase = UserDatabase.getInstance(application);
+        AppDatabase appDatabase = AppDatabase.getInstance(application);
         // db access with dao
-        userDao = userDatabase.userDao();
+        userDao = appDatabase.userDao();
         // db data
         allUsers = userDao.getAllUsers();
     }
@@ -59,12 +58,6 @@ public class UserRepository {
 
     public MutableLiveData<User> getUserByIdSearchResults() {
         return userSearchResults;
-    }
-
-    /* UserWithContacts */
-
-    public LiveData<List<UserWithContacts>> getUserWithContacts(Integer userId) {
-        return userDao.getUserWithContacts(userId);
     }
 
 

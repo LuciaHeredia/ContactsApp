@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.contactsapp.R;
 import com.example.contactsapp.databinding.FragmentContactsBinding;
-import com.example.contactsapp.presentation.UserViewModel;
+import com.example.contactsapp.presentation.UserWithContactsViewModel;
 import com.example.contactsapp.utils.ContactAdapter;
 import com.example.contactsapp.utils.PrefManager;
 
@@ -27,7 +27,7 @@ public class ContactsFragment extends Fragment implements MenuProvider {
 
     private PrefManager prefManager;
     private FragmentContactsBinding binding;
-    private UserViewModel userViewModel;
+    private UserWithContactsViewModel userWithContactsViewModel;
     private ContactAdapter adapter;
 
     @Override
@@ -77,8 +77,8 @@ public class ContactsFragment extends Fragment implements MenuProvider {
     }
 
     private void initContactsFromDb() {
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        userViewModel.getUserWithContacts(prefManager.getLoginUserData()).observe(this,
+        userWithContactsViewModel = new ViewModelProvider(this).get(UserWithContactsViewModel.class);
+        userWithContactsViewModel.getUserWithContacts(prefManager.getLoginUserData()).observe(this,
                 userWithContacts -> adapter.setContacts(userWithContacts.get(0).getContacts()));
     }
 

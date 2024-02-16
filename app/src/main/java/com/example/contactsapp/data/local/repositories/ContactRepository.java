@@ -6,16 +6,16 @@ import android.os.AsyncTask;
 import com.example.contactsapp.data.entities.Contact;
 import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.data.local.daos.ContactDao;
-import com.example.contactsapp.data.local.database.UserDatabase;
+import com.example.contactsapp.data.local.database.AppDatabase;
 
 public class ContactRepository {
     private ContactDao contactDao;
 
     public ContactRepository(Application application) {
         // db call
-        UserDatabase userDatabase = UserDatabase.getInstance(application);
+        AppDatabase appDatabase = AppDatabase.getInstance(application);
         // db access with dao
-        contactDao = userDatabase.contactDao();
+        contactDao = appDatabase.contactDao();
     }
 
     public void insertContact(UserWithContacts userWithContacts) {
