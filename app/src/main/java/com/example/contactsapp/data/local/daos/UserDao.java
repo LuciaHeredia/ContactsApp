@@ -34,6 +34,10 @@ public interface UserDao {
     @Query("SELECT * FROM user_table")
     LiveData<List<User>> getAllUsers();
 
+    @Transaction
+    @Query("SELECT * FROM user_table WHERE username = :username")
+    User getUser(String username);
+
 
     /* UserWithContacts */
 

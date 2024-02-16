@@ -2,8 +2,10 @@ package com.example.contactsapp.data.local.repositories;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.contactsapp.data.entities.Contact;
 import com.example.contactsapp.data.entities.UserWithContacts;
@@ -16,6 +18,8 @@ import java.util.List;
 public class UserRepository {
     private UserDao userDao;
     private LiveData<List<User>> allUsers;
+    private MutableLiveData<User> userSearchResults = new MutableLiveData<>();
+
 
     public UserRepository(Application application) {
         // db call
@@ -45,6 +49,18 @@ public class UserRepository {
         return allUsers;
     }
 
+    public void getUser(String username) {
+        GetUserAsyncTask task = new GetUserAsyncTask(userDao);
+        task.delegate = this;
+        task.execute(username);
+    }
+    public void getUserAsyncFinished(User user) {
+        userSearchResults.setValue(user);
+    }
+
+    public MutableLiveData<User> getUserSearchResults() {
+        return userSearchResults;
+    }
 
     /* UserWithContacts */
 
@@ -118,6 +134,25 @@ public class UserRepository {
         protected Void doInBackground(User... user) {
             userDao.deleteUser(user[0]);
             return null;
+        }
+    }
+
+    private static class GetUserAsyncTask extends AsyncTask<String, Void, User> {
+        private UserDao userDao;
+        private UserRepository delegate = null;
+
+        private GetUserAsyncTask(UserDao userDao) {
+            this.userDao = userDao;
+        }
+
+        @Override
+        protected User doInBackground(final String... params) {
+            return userDao.getUser(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            delegate.getUserAsyncFinished(user);
         }
     }
 

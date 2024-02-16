@@ -13,8 +13,7 @@ public class UserWithContacts {
 
     @Relation(
             parentColumn = "userId",
-            entityColumn = "contactUserId",
-            entity = Contact.class
+            entityColumn = "contactUserId"
     )
     public List<Contact> contacts;
 
@@ -26,10 +25,10 @@ public class UserWithContacts {
     //* Setters *//
 
     public void setContact(Contact contact) {
-        if (contacts == null) {
-            contacts = new ArrayList<>();
+        if (this.contacts == null) {
+            this.contacts = new ArrayList<>();
         }
-        contacts.add(contact);
+        this.contacts.add(contact);
     }
 
     //* Getters *//

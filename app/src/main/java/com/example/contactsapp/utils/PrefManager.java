@@ -17,21 +17,21 @@ public class PrefManager {
 
     public void saveLoginUserData(User user) {
         SharedPreferences.Editor userEdit = sharedPreferences.edit();
-        userEdit.putInt("userId", user.getUserId());
+        userEdit.putInt("userId_pref", user.getUserId());
         userEdit.apply();
     }
 
     public Integer getLoginUserData() {
-        return sharedPreferences.getInt("userId",0);
+        return sharedPreferences.getInt("userId_pref",0);
     }
 
     public boolean isUserLogin() {
-        return sharedPreferences.getInt("username", 0) > 0;
+        return sharedPreferences.getInt("userId_pref", 0) > 0;
     }
 
     public void userLogout() {
         SharedPreferences.Editor userEdit = sharedPreferences.edit();
-        userEdit.putInt("username", 0);
+        userEdit.putInt("userId_pref", 0);
         userEdit.apply();
     }
 

@@ -65,15 +65,11 @@ public abstract class UserDatabase extends RoomDatabase {
             Contact c2 = new Contact("ron", "sss","male", "444","email@ggg","11/02/2023");
 
             // i have the userId from shared preferences ////
-            Integer userId = u.getUserId();
-            //User mockUser = new User(userId);
+            Integer userId = userDao.getUser(u.getUsername()).getUserId();
             c.setContactUserId(userId);
             c2.setContactUserId(userId);
-            UserWithContacts userWithContacts1 = new UserWithContacts(u,null);
-            userWithContacts1.setContact(c);
-            userWithContacts1.setContact(c2);
-            userDao.insertContact(userWithContacts1.contacts.get(0));
-            userDao.insertContact(userWithContacts1.contacts.get(1));
+            userDao.insertContact(c);
+            userDao.insertContact(c2);
 
             return null;
         }
