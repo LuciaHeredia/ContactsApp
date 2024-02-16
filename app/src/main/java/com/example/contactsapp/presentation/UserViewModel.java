@@ -4,13 +4,9 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
-import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.data.local.repositories.UserRepository;
 import com.example.contactsapp.data.entities.User;
 
