@@ -15,7 +15,6 @@ import java.util.List;
 
 public class UserViewModel extends AndroidViewModel {
 
-    private MutableLiveData<User> userSearchResults;
     private UserRepository repository;
     private LiveData<List<User>> allUsers;
 
@@ -23,9 +22,11 @@ public class UserViewModel extends AndroidViewModel {
     public UserViewModel(@NonNull Application application) {
         super(application);
         repository = new UserRepository(application);
-        userSearchResults = repository.getUserSearchResults();
         allUsers = repository.getAllUsers();
     }
+
+
+    /* User */
 
     public void insertUser(UserWithContacts userWithContacts) {
         repository.insertUser(userWithContacts);
@@ -43,17 +44,15 @@ public class UserViewModel extends AndroidViewModel {
         return allUsers;
     }
 
-    public MutableLiveData<User> getUserResults() {
-        return userSearchResults;
-    }
 
-    public void getUser(String name) {
-        repository.getUser(name);
-    }
+    /* UserWithContacts */
 
     public LiveData<List<UserWithContacts>> getUserWithContacts(String username) {
         return repository.getUserWithContacts(username);
     }
+
+
+    /* Contact */
 
     public void insertContact(UserWithContacts userWithContacts) {
         repository.insertContact(userWithContacts);

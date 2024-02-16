@@ -17,6 +17,8 @@ import java.util.List;
 @Dao
 public interface UserDao {
 
+    /* User */
+
     @Transaction
     @Insert
     void insertUser(User user);
@@ -32,24 +34,25 @@ public interface UserDao {
     @Query("SELECT * FROM user_table")
     LiveData<List<User>> getAllUsers();
 
+
+    /* UserWithContacts */
+
     @Transaction
     @Query("SELECT * FROM user_table WHERE username = :username")
-    User getUser(String username);
+    LiveData<List<UserWithContacts>> getUserWithContacts(String username);
+
+    /*@Transaction
+    @Query("DELETE FROM contact_table")
+    void deleteAllContacts();*/
+
+    /* Contact */
 
     @Transaction
     @Insert
     void insertContact(Contact contact);
 
-    @Transaction
+    /*@Transaction
     @Insert
-    void updateContact(Contact contact);
-
-    @Transaction
-    @Query("DELETE FROM contact_table")
-    void deleteAllContacts();
-
-    @Transaction
-    @Query("SELECT * FROM user_table WHERE username = :username")
-    LiveData<List<UserWithContacts>> getUserWithContacts(String username);
+    void updateContact(Contact contact);*/
 
 }

@@ -2,6 +2,7 @@ package com.example.contactsapp.data.local.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -65,7 +66,7 @@ public abstract class UserDatabase extends RoomDatabase {
             Contact c2 = new Contact("ron", "sss","male", "444","email@ggg","11/02/2023");
 
             // if I have only username /////////////////////////////
-            User foundUser = userDao.getUser(u.getUsername());
+            User foundUser = u;
             c.setContactUserId(foundUser.getUserId());
             c2.setContactUserId(foundUser.getUserId());
             UserWithContacts userWithContacts1 = new UserWithContacts(foundUser, null);

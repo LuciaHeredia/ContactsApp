@@ -13,7 +13,8 @@ public class UserWithContacts {
 
     @Relation(
             parentColumn = "userId",
-            entityColumn = "contactId"
+            entityColumn = "contactUserId",
+            entity = Contact.class
     )
     public List<Contact> contacts;
 

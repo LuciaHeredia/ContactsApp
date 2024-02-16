@@ -1,7 +1,5 @@
 package com.example.contactsapp.utils;
 
-import com.example.contactsapp.R;
-
 public class Constants {
 
     //* API *//

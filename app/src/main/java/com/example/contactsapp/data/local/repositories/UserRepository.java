@@ -17,7 +17,6 @@ import java.util.List;
 public class UserRepository {
     private UserDao userDao;
     private LiveData<List<User>> allUsers;
-    private MutableLiveData<User> userSearchResults = new MutableLiveData<>();
 
     public UserRepository(Application application) {
         // db call
@@ -27,6 +26,9 @@ public class UserRepository {
         // db data
         allUsers = userDao.getAllUsers();
     }
+
+
+    /* User */
 
     public void insertUser(UserWithContacts userWithContacts){
         new InsertUserAsyncTask(userDao).execute(userWithContacts);
@@ -44,23 +46,15 @@ public class UserRepository {
         return allUsers;
     }
 
-    public void getUser(String username) {
-        GetUserAsyncTask task = new GetUserAsyncTask(userDao);
-        task.delegate = this;
-        task.execute(username);
-    }
+
+    /* UserWithContacts */
 
     public LiveData<List<UserWithContacts>> getUserWithContacts(String username) {
         return userDao.getUserWithContacts(username);
     }
 
-    public void getUserAsyncFinished(User user) {
-        userSearchResults.setValue(user);
-    }
 
-    public MutableLiveData<User> getUserSearchResults() {
-        return userSearchResults;
-    }
+    /* Contact */
 
     public void insertContact(UserWithContacts userWithContacts) {
         new InsertContactAsyncTask(userDao).execute(userWithContacts);
@@ -78,9 +72,9 @@ public class UserRepository {
 
         @Override
         protected Void doInBackground(UserWithContacts... userWithContacts) {
-            Integer identifier = userWithContacts[0].user.getUserId();
+            Integer userId = userWithContacts[0].user.getUserId();
             Contact contact = userWithContacts[0].contacts.get(0);
-            contact.setContactUserId(identifier);
+            contact.setContactUserId(userId);
             userDao.insertContact(contact);
             return null;
         }
@@ -125,25 +119,6 @@ public class UserRepository {
         protected Void doInBackground(User... params) {
             userDao.deleteUser(params[0]);
             return null;
-        }
-    }
-
-    private static class GetUserAsyncTask extends AsyncTask<String, Void, User> {
-        private UserDao userDao;
-        private UserRepository delegate = null;
-
-        private GetUserAsyncTask(UserDao userDao) {
-            this.userDao = userDao;
-        }
-
-        @Override
-        protected User doInBackground(final String... params) {
-            return userDao.getUser(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(User user) {
-            delegate.getUserAsyncFinished(user);
         }
     }
 
