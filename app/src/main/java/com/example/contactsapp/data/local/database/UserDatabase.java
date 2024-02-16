@@ -58,18 +58,18 @@ public abstract class UserDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             User u = new User("adam", "123", "13-02-2024");
-            UserWithContacts userWithContacts = new UserWithContacts(u, null);
-            userDao.insertUser(userWithContacts.user);
+            userDao.insertUser(u);
 
             // insert contacts
             Contact c = new Contact("gin", "segev","male", "444","email@ggg","11/02/2023");
             Contact c2 = new Contact("ron", "sss","male", "444","email@ggg","11/02/2023");
 
-            // if I have only username /////////////////////////////
-            User foundUser = u;
-            c.setContactUserId(foundUser.getUserId());
-            c2.setContactUserId(foundUser.getUserId());
-            UserWithContacts userWithContacts1 = new UserWithContacts(foundUser, null);
+            // i have the userId from shared preferences ////
+            Integer userId = u.getUserId();
+            //User mockUser = new User(userId);
+            c.setContactUserId(userId);
+            c2.setContactUserId(userId);
+            UserWithContacts userWithContacts1 = new UserWithContacts(u,null);
             userWithContacts1.setContact(c);
             userWithContacts1.setContact(c2);
             userDao.insertContact(userWithContacts1.contacts.get(0));

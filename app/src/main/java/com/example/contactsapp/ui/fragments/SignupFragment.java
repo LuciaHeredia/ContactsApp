@@ -67,8 +67,7 @@ public class SignupFragment extends Fragment {
                 } else {
                     String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
                     User newUser = new User(username, password1, currentDate);
-                    UserWithContacts userWithContacts = new UserWithContacts(newUser, null);
-                    userViewModel.insertUser(userWithContacts);
+                    userViewModel.insertUser(newUser);
                     Toast.makeText(getActivity(), Constants.MSG_ADD_SUCCESS,Toast.LENGTH_LONG).show();
                     goToLogin();
                 }

@@ -1,6 +1,7 @@
 package com.example.contactsapp.data.entities;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_table")
@@ -21,6 +22,15 @@ public class User {
         this.password = password;
         this.date = date;
     }
+
+    /**
+     * A Mock User
+     * @param userId from an already existing user.
+     */
+    /*@Ignore
+    public User(Integer userId) {
+        this.userId = userId;
+    }*/
 
     //* Setters *//
 

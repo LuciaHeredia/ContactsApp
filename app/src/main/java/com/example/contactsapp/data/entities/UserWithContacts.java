@@ -23,11 +23,23 @@ public class UserWithContacts {
         this.contacts = contacts;
     }
 
+    //* Setters *//
+
     public void setContact(Contact contact) {
         if (contacts == null) {
             contacts = new ArrayList<>();
         }
         contacts.add(contact);
+    }
+
+    //* Getters *//
+
+    public User getUser() {
+        return user;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
     }
 
 }

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.contactsapp.data.entities.Contact;
 import com.example.contactsapp.data.entities.UserWithContacts;
@@ -30,8 +29,8 @@ public class UserRepository {
 
     /* User */
 
-    public void insertUser(UserWithContacts userWithContacts){
-        new InsertUserAsyncTask(userDao).execute(userWithContacts);
+    public void insertUser(User user){
+        new InsertUserAsyncTask(userDao).execute(user);
     }
 
     public void updateUser(User user){
@@ -49,8 +48,8 @@ public class UserRepository {
 
     /* UserWithContacts */
 
-    public LiveData<List<UserWithContacts>> getUserWithContacts(String username) {
-        return userDao.getUserWithContacts(username);
+    public LiveData<List<UserWithContacts>> getUserWithContacts(Integer userId) {
+        return userDao.getUserWithContacts(userId);
     }
 
 
@@ -72,15 +71,15 @@ public class UserRepository {
 
         @Override
         protected Void doInBackground(UserWithContacts... userWithContacts) {
-            Integer userId = userWithContacts[0].user.getUserId();
-            Contact contact = userWithContacts[0].contacts.get(0);
+            Integer userId = userWithContacts[0].getUser().getUserId();
+            Contact contact = userWithContacts[0].getContacts().get(0);
             contact.setContactUserId(userId);
             userDao.insertContact(contact);
             return null;
         }
     }
 
-    private static class InsertUserAsyncTask extends AsyncTask<UserWithContacts, Void, Void> {
+    private static class InsertUserAsyncTask extends AsyncTask<User, Void, Void> {
         private UserDao userDao;
 
         private InsertUserAsyncTask(UserDao userDao) {
@@ -88,8 +87,8 @@ public class UserRepository {
         }
 
         @Override
-        protected Void doInBackground(UserWithContacts... params) {
-            userDao.insertUser(params[0].user);
+        protected Void doInBackground(User... user) {
+            userDao.insertUser(user[0]);
             return null;
         }
     }
@@ -102,8 +101,8 @@ public class UserRepository {
         }
 
         @Override
-        protected Void doInBackground(User... params) {
-            userDao.updateUser(params[0]);
+        protected Void doInBackground(User... user) {
+            userDao.updateUser(user[0]);
             return null;
         }
     }
@@ -116,8 +115,8 @@ public class UserRepository {
         }
 
         @Override
-        protected Void doInBackground(User... params) {
-            userDao.deleteUser(params[0]);
+        protected Void doInBackground(User... user) {
+            userDao.deleteUser(user[0]);
             return null;
         }
     }

@@ -28,8 +28,8 @@ public class UserViewModel extends AndroidViewModel {
 
     /* User */
 
-    public void insertUser(UserWithContacts userWithContacts) {
-        repository.insertUser(userWithContacts);
+    public void insertUser(User user) {
+        repository.insertUser(user);
     }
 
     public void updateUser(User user) {
@@ -47,8 +47,8 @@ public class UserViewModel extends AndroidViewModel {
 
     /* UserWithContacts */
 
-    public LiveData<List<UserWithContacts>> getUserWithContacts(String username) {
-        return repository.getUserWithContacts(username);
+    public LiveData<List<UserWithContacts>> getUserWithContacts(Integer userId) {
+        return repository.getUserWithContacts(userId);
     }
 
 

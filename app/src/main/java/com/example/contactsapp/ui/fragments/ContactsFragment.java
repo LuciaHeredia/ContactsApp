@@ -52,7 +52,7 @@ public class ContactsFragment extends Fragment {
     ) {
         binding = FragmentContactsBinding.inflate(inflater, container, false);
         recyclerViewSetup();
-        initUsersFromDb();
+        initContactsFromDb();
         listenerSetup();
         return binding.getRoot();
     }
@@ -78,12 +78,12 @@ public class ContactsFragment extends Fragment {
         binding.recyclerView.setAdapter(adapter);
     }
 
-    private void initUsersFromDb() {
+    private void initContactsFromDb() {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.getUserWithContacts(prefManager.getLoginUserData()).observe(this, new Observer<List<UserWithContacts>>() {
             @Override
             public void onChanged(List<UserWithContacts> userWithContacts) {
-                adapter.setContacts(userWithContacts.get(0).contacts);
+                adapter.setContacts(userWithContacts.get(0).getContacts());
             }
         });
     }

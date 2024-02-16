@@ -38,8 +38,8 @@ public interface UserDao {
     /* UserWithContacts */
 
     @Transaction
-    @Query("SELECT * FROM user_table WHERE username = :username")
-    LiveData<List<UserWithContacts>> getUserWithContacts(String username);
+    @Query("SELECT * FROM user_table WHERE userId = :userId")
+    LiveData<List<UserWithContacts>> getUserWithContacts(Integer userId);
 
     /*@Transaction
     @Query("DELETE FROM contact_table")
