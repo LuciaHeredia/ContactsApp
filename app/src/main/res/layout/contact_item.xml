@@ -57,7 +57,7 @@
                     android:id="@+id/tv_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/gender"
+                    android:text="@string/gender_field"
                     android:layout_marginEnd="5dp"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
@@ -79,7 +79,7 @@
                     android:id="@+id/tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/phone"
+                    android:text="@string/phone_field"
                     android:layout_marginEnd="5dp"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
@@ -101,7 +101,7 @@
                     android:id="@+id/tv_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/email"
+                    android:text="@string/email_field"
                     android:layout_marginEnd="5dp"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
@@ -123,7 +123,7 @@
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/added_date"
+                    android:text="@string/added_date_field"
                     android:layout_marginEnd="5dp"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"/>

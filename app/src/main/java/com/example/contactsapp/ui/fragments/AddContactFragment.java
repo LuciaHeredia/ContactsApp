@@ -14,10 +14,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.contactsapp.R;
 import com.example.contactsapp.data.entities.Contact;
+import com.example.contactsapp.data.entities.User;
 import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.databinding.FragmentAddContactBinding;
 import com.example.contactsapp.presentation.ContactViewModel;
-import com.example.contactsapp.presentation.UserViewModel;
 import com.example.contactsapp.utils.Constants;
 import com.example.contactsapp.utils.PrefManager;
 
@@ -28,9 +28,7 @@ import java.util.Locale;
 public class AddContactFragment extends Fragment {
     private PrefManager prefManager;
     private FragmentAddContactBinding binding;
-    private UserViewModel userViewModel;
     private ContactViewModel contactViewModel;
-    private Contact contactToAdd;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -45,9 +43,7 @@ public class AddContactFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentAddContactBinding.inflate(inflater, container, false);
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
-        observeSetup();
         listenerSetup();
         return binding.getRoot();
     }
@@ -63,25 +59,47 @@ public class AddContactFragment extends Fragment {
         String phone = binding.etPhone.getText().toString();
         String email = binding.etEmail.getText().toString();
         String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        boolean phoneOK = true;
+        boolean emailOK = true;
 
+        /* some fields are empty */
         if(fName.isEmpty() || lName.isEmpty() || phone.isEmpty() || email.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
-        } else {
-            // TODO: check if fields correct: fName, lName, phone, email
-            // TODO: get gender from api
-            contactToAdd = new Contact(fName, lName, gender, phone, email, date);
-            userViewModel.getUserById(prefManager.getLoginUserData());
+            return;
         }
+        /* phone must be 10 numbers */
+        if (phone.length()<10) {
+            binding.etPhone.setError("Must be 10 numbers");
+            phoneOK = false;
+        } else {
+            /* phone must start with 0 */
+            if (phone.charAt(0)!='0') {
+                binding.etPhone.setError("Must start with 0");
+                phoneOK = false;
+            }
+        }
+        /* valid email */
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.etEmail.setError("Email not valid");
+            emailOK = false;
+        }
+
+        if(!phoneOK || !emailOK) {
+            return;
+        }
+
+        // TODO: get gender from api
+        Contact contactToAdd = new Contact(fName, lName, gender, phone, email, date);
+        saveContact(contactToAdd);
     }
 
-    private void observeSetup() {
-        userViewModel.getUserByIdResults().observe(this, user -> {
-            UserWithContacts userWithContacts = new UserWithContacts(user, null);
-            userWithContacts.setContact(contactToAdd);
-            contactViewModel.insertContact(userWithContacts);
-            Toast.makeText(getActivity(), Constants.MSG_CONTACT_ADD_SUCCESS,Toast.LENGTH_SHORT).show();
-            goToContacts();
-        });
+    private void saveContact(Contact contact) {
+        User user = new User(prefManager.getLoginUserData());
+        UserWithContacts userWithContacts = new UserWithContacts(user, null);
+        userWithContacts.setContact(contact);
+        contactViewModel.insertContact(userWithContacts);
+        Toast.makeText(getActivity(), Constants.MSG_CONTACT_ADD_SUCCESS,Toast.LENGTH_SHORT).show();
+        goToContacts();
     }
 
     private void goToContacts() {

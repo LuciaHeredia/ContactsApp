@@ -48,6 +48,7 @@
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="40dp"
                 android:autofillHints=""
+                android:maxLength="10"
                 android:inputType="text" />
 
             <EditText
@@ -63,6 +64,7 @@
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="20dp"
                 android:autofillHints=""
+                android:maxLength="10"
                 android:inputType="textPassword"/>
 
             <EditText
@@ -78,6 +80,7 @@
                 android:drawablePadding="8dp"
                 android:background="@drawable/custom_edit_text"
                 android:autofillHints=""
+                android:maxLength="10"
                 android:inputType="textPassword"/>
 
             <Button

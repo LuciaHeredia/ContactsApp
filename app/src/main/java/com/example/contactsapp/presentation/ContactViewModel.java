@@ -22,4 +22,6 @@ public class ContactViewModel extends AndroidViewModel {
         repository.insertContact(userWithContacts);
     }
 
+
+
 }

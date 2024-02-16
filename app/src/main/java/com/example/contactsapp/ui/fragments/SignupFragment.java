@@ -53,25 +53,36 @@ public class SignupFragment extends Fragment {
         String username = binding.username.getText().toString();
         String password1 = binding.password.getText().toString();
         String password2 = binding.passwordConfirm.getText().toString();
+        boolean usernameOK = true;
+        boolean passwordsOK = true;
 
+        /* some fields are empty */
         if(username.isEmpty() || password1.isEmpty() || password2.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
-        } else {
-            User foundUser = userViewModel.isUserExist(allUsers, username);
-            if (foundUser!=null) {
-                Toast.makeText(getActivity(), Constants.MSG_USER_TAKEN,Toast.LENGTH_SHORT).show();
-            } else {
-                if(!password1.equals(password2)) {
-                    Toast.makeText(getActivity(), Constants.MSG_NO_MATCH_PASSWORD,Toast.LENGTH_SHORT).show();
-                } else {
-                    String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-                    User newUser = new User(username, password1, currentDate);
-                    userViewModel.insertUser(newUser);
-                    Toast.makeText(getActivity(), Constants.MSG_USER_ADD_SUCCESS,Toast.LENGTH_LONG).show();
-                    goToLogin();
-                }
-            }
+            return;
         }
+        /* username already exist */
+        User foundUser = userViewModel.isUserExist(allUsers, username);
+        if (foundUser!=null) {
+            binding.username.setError(Constants.MSG_USER_TAKEN);
+            usernameOK = false;
+        }
+        /* password & confirmPassword don't match */
+        if(!password1.equals(password2)) {
+            binding.password.setError(Constants.MSG_NO_MATCH_PASSWORD);
+            binding.passwordConfirm.setError(Constants.MSG_NO_MATCH_PASSWORD);
+            passwordsOK = false;
+        }
+
+        if(!usernameOK || !passwordsOK) {
+            return;
+        }
+
+        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        User newUser = new User(username, password1, currentDate);
+        userViewModel.insertUser(newUser);
+        Toast.makeText(getActivity(), Constants.MSG_USER_ADD_SUCCESS,Toast.LENGTH_LONG).show();
+        goToLogin();
     }
 
     private void goToLogin() {
