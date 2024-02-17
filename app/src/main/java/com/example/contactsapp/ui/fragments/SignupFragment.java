@@ -77,7 +77,7 @@ public class SignupFragment extends Fragment {
 
         User newUser = new User(username, password1);
         userViewModel.insertUser(newUser);
-        Toast.makeText(getActivity(), Constants.MSG_USER_ADD_SUCCESS,Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), Constants.MSG_USER_ADD_SUCCESS,Toast.LENGTH_SHORT).show();
         goToLogin();
     }
 

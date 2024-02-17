@@ -103,7 +103,7 @@ public class LoginFragment extends Fragment {
                 if (!foundUser.getPassword().equals(password)) {
                     Toast.makeText(getActivity(), Constants.MSG_WRONG_PASSWORD, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS, Toast.LENGTH_SHORT).show();
                     prefManager.saveLoginUserData(foundUser);
                     goToContacts();
                 }
@@ -138,7 +138,7 @@ public class LoginFragment extends Fragment {
                         } else {
                             foundUser.setPassword(newPassword);
                             userViewModel.updateUser(foundUser);
-                            Toast.makeText(getActivity(), Constants.MSG_PASSWORD_CHANGED, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), Constants.MSG_PASSWORD_CHANGED, Toast.LENGTH_SHORT).show();
                             changePasswordDialog.dismiss();
                         }
                     });

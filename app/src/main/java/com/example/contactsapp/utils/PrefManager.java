@@ -3,6 +3,7 @@ package com.example.contactsapp.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.contactsapp.data.entities.Contact;
 import com.example.contactsapp.data.entities.User;
 
 public class PrefManager {
@@ -33,6 +34,16 @@ public class PrefManager {
         SharedPreferences.Editor userEdit = sharedPreferences.edit();
         userEdit.putInt("userId_pref", 0);
         userEdit.apply();
+    }
+
+    public void saveContactData(Contact contact) {
+        SharedPreferences.Editor contactEdit = sharedPreferences.edit();
+        contactEdit.putInt("contactId_pref", contact.getContactId());
+        contactEdit.apply();
+    }
+
+    public Integer getContactData() {
+        return sharedPreferences.getInt("contactId_pref",0);
     }
 
 }
