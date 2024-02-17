@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.data.local.daos.UserDao;
 import com.example.contactsapp.data.local.database.AppDatabase;
 import com.example.contactsapp.data.entities.User;
@@ -28,8 +27,6 @@ public class UserRepository {
         allUsers = userDao.getAllUsers();
     }
 
-
-    /* User */
 
     public void insertUser(User user){
         new InsertUserAsyncTask(userDao).execute(user);
