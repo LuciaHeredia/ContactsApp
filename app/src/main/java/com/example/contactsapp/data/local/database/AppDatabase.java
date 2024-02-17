@@ -64,12 +64,12 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             // insert user
-            User u = new User("adam", "123", "13-02-2024"); // userId = 1
+            User u = new User("adam", "123"); // userId = 1
             userDao.insertUser(u);
 
             // insert contacts
-            Contact c1 = new Contact("gin", "segev","male", "444","email@ggg","11/02/2023");
-            Contact c2 = new Contact("ron", "sss","male", "444","email@ggg","11/02/2023");
+            Contact c1 = new Contact("gin", "segev","male", "444","email@ggg");
+            Contact c2 = new Contact("ron", "sss","male", "444","email@ggg");
 
             // i have the userId from shared preferences
             Integer userId = userDao.getUserByUsername(u.getUsername()).getUserId();

@@ -14,15 +14,12 @@ public class User {
 
     private String password;
 
-    private String date;
-
     /**
      * Constructor
      */
-    public User(String username, String password, String date) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.date = date;
     }
 
     /**
@@ -56,10 +53,6 @@ public class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getDate() {
-        return date;
     }
 
 }

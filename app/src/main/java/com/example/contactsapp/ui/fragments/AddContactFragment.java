@@ -21,10 +21,6 @@ import com.example.contactsapp.presentation.ContactViewModel;
 import com.example.contactsapp.utils.Constants;
 import com.example.contactsapp.utils.PrefManager;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class AddContactFragment extends Fragment {
     private PrefManager prefManager;
     private FragmentAddContactBinding binding;
@@ -57,7 +53,6 @@ public class AddContactFragment extends Fragment {
         String lName = binding.etLastName.getText().toString();
         String phone = binding.etPhone.getText().toString();
         String email = binding.etEmail.getText().toString();
-        String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
         boolean phoneOK = true;
         boolean emailOK = true;
 
@@ -87,7 +82,7 @@ public class AddContactFragment extends Fragment {
             return;
         }
 
-        Contact contactToAdd = new Contact(fName, lName, "", phone, email, date);
+        Contact contactToAdd = new Contact(fName, lName, "", phone, email);
         GetGenderByNameResponse(contactToAdd);
     }
 

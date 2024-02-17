@@ -46,6 +46,17 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
             <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/lastName_switch"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/last_name"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/gender_switch"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -73,17 +84,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="@string/email"
-                android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/date_switch"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/settings_date"
                 android:textStyle="bold"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"

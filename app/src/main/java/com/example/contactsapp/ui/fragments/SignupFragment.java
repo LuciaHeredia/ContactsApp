@@ -17,11 +17,8 @@ import com.example.contactsapp.databinding.FragmentSignupBinding;
 import com.example.contactsapp.presentation.UserViewModel;
 import com.example.contactsapp.utils.Constants;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class SignupFragment extends Fragment {
     private FragmentSignupBinding binding;
@@ -78,8 +75,7 @@ public class SignupFragment extends Fragment {
             return;
         }
 
-        String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        User newUser = new User(username, password1, currentDate);
+        User newUser = new User(username, password1);
         userViewModel.insertUser(newUser);
         Toast.makeText(getActivity(), Constants.MSG_USER_ADD_SUCCESS,Toast.LENGTH_LONG).show();
         goToLogin();
