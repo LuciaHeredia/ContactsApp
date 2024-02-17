@@ -75,13 +75,15 @@ public class ContactInfoFragment extends Fragment {
 
     private void listenerSetup() {
         binding.editBtn.setOnClickListener(view1 -> editContact());
-        binding.deleteBtn.setOnClickListener(view1 -> deleteAlertDialog());
+        binding.deleteBtn.setOnClickListener(view1 -> alertDialogDelete());
     }
 
     private void editContact() {
+        // TODO: show contact info in add new contact fragment
+        contactViewModel.updateContact(currentContact);
     }
 
-    private void deleteAlertDialog(){
+    private void alertDialogDelete(){
         // delete question
         alertDialogBuilder.setMessage(Constants.MSG_ACCEPT_DELETE_CONTACT);
         // yes btn
