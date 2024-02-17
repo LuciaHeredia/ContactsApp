@@ -75,7 +75,7 @@ public class ContactInfoFragment extends Fragment {
 
     private void listenerSetup() {
         binding.editBtn.setOnClickListener(view1 -> editContact());
-        binding.deleteBtn.setOnClickListener(view1 -> alertDialogDelete());
+        binding.deleteBtn.setOnClickListener(view2 -> alertDialogDelete());
     }
 
     private void editContact() {

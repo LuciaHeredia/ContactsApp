@@ -21,8 +21,11 @@ import com.example.contactsapp.R;
 import com.example.contactsapp.data.entities.User;
 import com.example.contactsapp.databinding.FragmentLoginBinding;
 import com.example.contactsapp.presentation.UserViewModel;
+import com.example.contactsapp.presentation.models.Settings;
 import com.example.contactsapp.utils.Constants;
 import com.example.contactsapp.utils.PrefManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +41,7 @@ public class LoginFragment extends Fragment {
         super.onAttach(context);
 
         prefManager = new PrefManager(context);
-        if(prefManager.isUserLogin()){
+        if(prefManager.isUserLogin()) {
             goToContacts();
         }
     }
@@ -86,7 +89,35 @@ public class LoginFragment extends Fragment {
     private void initUsersFromDb() {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         allUsers = new ArrayList<>();
-        userViewModel.getAllUsers().observe(this, dbUsers -> allUsers = dbUsers);
+        userViewModel.getAllUsers().observe(this,
+                dbUsers -> {
+                    allUsers = dbUsers;
+                    saveLastUserContactSettings();
+                });
+    }
+
+    private void saveLastUserContactSettings() {
+        Integer userId = prefManager.getSaveUserToDb();
+        if(userId>0) {
+            User user = userViewModel.isUserExist(allUsers, "", userId);
+            readSaveContactSettings(user);
+        }
+    }
+
+    private void readSaveContactSettings(User user) {
+        String jsonString = prefManager.getContactSettings();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Settings settings = mapper.readValue(jsonString, Settings.class);
+            user.setShowLastName(settings.isShowLastName());
+            user.setShowGender(settings.isShowGender());
+            user.setShowPhone(settings.isShowPhone());
+            user.setShowEmail(settings.isShowEmail());
+            userViewModel.updateUser(user);
+            prefManager.saveUserToDb(0);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void loginAuth() {
@@ -96,7 +127,7 @@ public class LoginFragment extends Fragment {
         if(username.isEmpty() || password.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
         } else {
-            User foundUser = userViewModel.isUserExist(allUsers, username);
+            User foundUser = userViewModel.isUserExist(allUsers, username, 0);
             if (foundUser == null) {
                 Toast.makeText(getActivity(), Constants.MSG_USER_NOT_FOUND, Toast.LENGTH_SHORT).show();
             } else {
@@ -104,7 +135,7 @@ public class LoginFragment extends Fragment {
                     Toast.makeText(getActivity(), Constants.MSG_WRONG_PASSWORD, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS, Toast.LENGTH_SHORT).show();
-                    prefManager.saveLoginUserData(foundUser);
+                    saveToSharedPref(foundUser);
                     goToContacts();
                 }
             }
@@ -121,7 +152,7 @@ public class LoginFragment extends Fragment {
             if(usernameInput.isEmpty()) {
                 Toast.makeText(getActivity(), Constants.MSG_ENTER_USERNAME,Toast.LENGTH_SHORT).show();
             } else {
-                User foundUser = userViewModel.isUserExist(allUsers, usernameInput);
+                User foundUser = userViewModel.isUserExist(allUsers, usernameInput, 0);
                 if (foundUser == null) {
                     Toast.makeText(getActivity(), Constants.MSG_NO_USER_NEW_PASS, Toast.LENGTH_SHORT).show();
                 } else {
@@ -146,6 +177,20 @@ public class LoginFragment extends Fragment {
             }
         });
         changePasswordDialog.show();
+    }
+
+    private void saveToSharedPref(User foundUser) {
+        // save userId
+        prefManager.saveLoginUserData(foundUser);
+        // save contactSettings
+        ObjectMapper mapper = new ObjectMapper();
+        Settings settings = foundUser.getSettings();
+        try {
+            String asString = mapper.writeValueAsString(settings);
+            prefManager.saveContactSettings(asString);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void goToContacts() {

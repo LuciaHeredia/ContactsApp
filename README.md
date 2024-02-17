@@ -2,14 +2,15 @@
 Signup/Login and add contacts to your list. <br/>
 
 ## Includes
-- Main activity with Fragments <br/>
-- RecyclerView
-- Binding <br/>
-- Navigation graph <br/>
-- Shared preferences <br/>
-- Data base: ROOM, LiveData
-- Web service: Retrofit <br/>
-- Design pattern: MVVM <br/>
+* Main activity with Fragments <br/>
+* Binding <br/>
+* Navigation graph <br/>
+* RecyclerView <br/>
+* Shared preferences, Jackson's ObjectMapper <br/>
+* Menu <br/>
+* Data base: ROOM(LiveData) <br/>
+* Web service: Retrofit2 <br/>
+* Design pattern: MVVM <br/>
 
 ## Created with:
 * Language: Java

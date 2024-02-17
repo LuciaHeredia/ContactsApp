@@ -59,7 +59,7 @@ public class SignupFragment extends Fragment {
             return;
         }
         /* username already exist */
-        User foundUser = userViewModel.isUserExist(allUsers, username);
+        User foundUser = userViewModel.isUserExist(allUsers, username, 0);
         if (foundUser!=null) {
             binding.username.setError(Constants.MSG_USER_TAKEN);
             usernameOK = false;

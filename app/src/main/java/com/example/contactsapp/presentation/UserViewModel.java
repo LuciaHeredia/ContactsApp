@@ -11,6 +11,7 @@ import com.example.contactsapp.data.local.repositories.UserRepository;
 import com.example.contactsapp.data.entities.User;
 
 import java.util.List;
+import java.util.Objects;
 
 public class UserViewModel extends AndroidViewModel {
     // AndroidViewModel(extends ViewModel) - for using context inside the ViewModel
@@ -49,11 +50,15 @@ public class UserViewModel extends AndroidViewModel {
         repository.getUserById(userId);
     }
 
-    public User isUserExist(List<User> foundUsers, String username) {
+    public User isUserExist(List<User> foundUsers, String username, Integer userId) {
         if(foundUsers != null) {
             for(User user: foundUsers) {
-                if(user.getUsername().equals(username)) {
-                    return user;
+                if(userId==0) { // search by username
+                    if(user.getUsername().equals(username))
+                        return user;
+                } else { // search by userId
+                    if(user.getUserId().equals(userId))
+                        return user;
                 }
             }
         }

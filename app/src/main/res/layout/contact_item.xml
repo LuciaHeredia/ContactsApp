@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/ll_c_name"
+            android:id="@+id/ll_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -51,7 +51,7 @@
             android:padding="5dp">
 
             <LinearLayout
-                android:id="@+id/ll_c_gender"
+                android:id="@+id/ll_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -73,7 +73,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_c_phone"
+                android:id="@+id/ll_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -95,7 +95,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_c_email"
+                android:id="@+id/ll_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

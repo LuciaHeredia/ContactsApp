@@ -20,8 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.contactsapp.R;
 import com.example.contactsapp.databinding.FragmentContactsBinding;
 import com.example.contactsapp.presentation.UserWithContactsViewModel;
+import com.example.contactsapp.presentation.models.Settings;
 import com.example.contactsapp.utils.ContactAdapter;
 import com.example.contactsapp.utils.PrefManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ContactsFragment extends Fragment implements MenuProvider {
 
@@ -29,6 +32,7 @@ public class ContactsFragment extends Fragment implements MenuProvider {
     private FragmentContactsBinding binding;
     private UserWithContactsViewModel userWithContactsViewModel;
     private ContactAdapter adapter;
+    private Settings settings;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -49,6 +53,7 @@ public class ContactsFragment extends Fragment implements MenuProvider {
     ) {
         binding = FragmentContactsBinding.inflate(inflater, container, false);
         getActivity().addMenuProvider(this, getViewLifecycleOwner(), getLifecycle().getCurrentState().RESUMED);
+        initContactSettings();
         recyclerViewSetup();
         initContactsFromDb();
         listenerSetup();
@@ -63,6 +68,16 @@ public class ContactsFragment extends Fragment implements MenuProvider {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    private void initContactSettings() {
+        String jsonString = prefManager.getContactSettings();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            settings = mapper.readValue(jsonString, Settings.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void listenerSetup() {
@@ -83,8 +98,10 @@ public class ContactsFragment extends Fragment implements MenuProvider {
     private void initContactsFromDb() {
         userWithContactsViewModel = new ViewModelProvider(this).get(UserWithContactsViewModel.class);
         userWithContactsViewModel.getUserWithContacts(prefManager.getLoginUserData()).observe(this,
-                userWithContacts -> adapter.setContacts(userWithContacts.get(0).getContacts()));
+                userWithContacts ->
+                        adapter.setContacts(settings, userWithContacts.get(0).getContacts()));
     }
+
 
     private void goToContactInfo() {
         NavHostFragment.findNavController(ContactsFragment.this)
@@ -116,6 +133,7 @@ public class ContactsFragment extends Fragment implements MenuProvider {
         if(menuItem.getItemId()==R.id.contact_settings) {
             goToSettings();
         } else { // Logout
+            prefManager.saveUserToDb(prefManager.getLoginUserData());
             prefManager.userLogout();
             goToLogin();
         }
