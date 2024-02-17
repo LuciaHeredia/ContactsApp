@@ -13,20 +13,18 @@ import com.example.contactsapp.data.entities.User;
 import java.util.List;
 
 public class UserViewModel extends AndroidViewModel {
+    // AndroidViewModel(extends ViewModel) - for using context inside the ViewModel
 
     private UserRepository repository;
     private LiveData<List<User>> allUsers;
     private MutableLiveData<User> userSearchResults;
 
-
-    // AndroidViewModel(extends ViewModel) - for using context inside the ViewModel
     public UserViewModel(@NonNull Application application) {
         super(application);
         repository = new UserRepository(application);
         allUsers = repository.getAllUsers();
         userSearchResults = repository.getUserByIdSearchResults();
     }
-
 
     public void insertUser(User user) {
         repository.insertUser(user);

@@ -12,10 +12,10 @@ import com.example.contactsapp.data.local.repositories.UserWithContactsRepositor
 import java.util.List;
 
 public class UserWithContactsViewModel extends AndroidViewModel {
+    // AndroidViewModel(extends ViewModel) - for using context inside the ViewModel
 
     private UserWithContactsRepository userWithContactsRepository;
 
-    // AndroidViewModel(extends ViewModel) - for using context inside the ViewModel
     public UserWithContactsViewModel(@NonNull Application application) {
         super(application);
         userWithContactsRepository = new UserWithContactsRepository(application);
