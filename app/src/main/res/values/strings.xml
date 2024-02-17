@@ -39,7 +39,7 @@
     //* Settings *//
     <string name="settings">Settings</string>
     <string name="settings_date">Added Date</string>
-    <string name="choose_contact_info">Choose what contact information to see:</string>
+    <string name="choose_contact_info">Choose what contact information to see in the list:</string>
 
     //* Contact Info *//
     <string name="contact_info">Contact Info</string>

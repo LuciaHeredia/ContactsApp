@@ -22,6 +22,9 @@ public class Constants {
     public static final String MSG_YES = "YES";
     public static final String MSG_NO = "NO";
     public static final String MSG_CONTACT_DELETED = "Contact deleted";
+    public static final String MSG_SOMETHING_WRONG = "Something wrong happened,\ntry again later";
+    public static final String MSG_CHANGES_SAVED = "Changes saved";
+
 
 
 

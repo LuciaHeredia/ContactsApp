@@ -2,6 +2,7 @@ package com.example.contactsapp.data.entities;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "contact_table",
@@ -28,13 +29,22 @@ public class Contact {
     /**
      * Constructor
      */
-    public Contact(String firstName, String lastName, String gender, String phone, String email) {
+    public Contact(String firstName, String lastName,
+                   String gender, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.phone = phone;
         this.email = email;
     }
+
+    /**
+     * Empty Constructor
+     */
+    @Ignore
+    public Contact() {
+    }
+
 
     //* Setters *//
 

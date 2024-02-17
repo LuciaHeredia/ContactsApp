@@ -21,7 +21,6 @@ import com.example.contactsapp.R;
 import com.example.contactsapp.data.entities.User;
 import com.example.contactsapp.databinding.FragmentLoginBinding;
 import com.example.contactsapp.presentation.UserViewModel;
-import com.example.contactsapp.presentation.models.Settings;
 import com.example.contactsapp.utils.Constants;
 import com.example.contactsapp.utils.PrefManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,7 +40,7 @@ public class LoginFragment extends Fragment {
         super.onAttach(context);
 
         prefManager = new PrefManager(context);
-        if(prefManager.isUserLogin()) {
+        if(prefManager.isUserLoggedIn()) {
             goToContacts();
         }
     }
@@ -90,56 +89,33 @@ public class LoginFragment extends Fragment {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         allUsers = new ArrayList<>();
         userViewModel.getAllUsers().observe(this,
-                dbUsers -> {
-                    allUsers = dbUsers;
-                    saveLastUserContactSettings();
-                });
-    }
-
-    private void saveLastUserContactSettings() {
-        Integer userId = prefManager.getSaveUserToDb();
-        if(userId>0) {
-            User user = userViewModel.isUserExist(allUsers, "", userId);
-            readSaveContactSettings(user);
-        }
-    }
-
-    private void readSaveContactSettings(User user) {
-        String jsonString = prefManager.getContactSettings();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Settings settings = mapper.readValue(jsonString, Settings.class);
-            user.setShowLastName(settings.isShowLastName());
-            user.setShowGender(settings.isShowGender());
-            user.setShowPhone(settings.isShowPhone());
-            user.setShowEmail(settings.isShowEmail());
-            userViewModel.updateUser(user);
-            prefManager.saveUserToDb(0);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+                dbUsers -> allUsers = dbUsers );
     }
 
     private void loginAuth() {
         String username = binding.username.getText().toString();
         String password = binding.password.getText().toString();
 
+        /* some fields are empty */
         if(username.isEmpty() || password.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
-        } else {
-            User foundUser = userViewModel.isUserExist(allUsers, username, 0);
-            if (foundUser == null) {
-                Toast.makeText(getActivity(), Constants.MSG_USER_NOT_FOUND, Toast.LENGTH_SHORT).show();
-            } else {
-                if (!foundUser.getPassword().equals(password)) {
-                    Toast.makeText(getActivity(), Constants.MSG_WRONG_PASSWORD, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS, Toast.LENGTH_SHORT).show();
-                    saveToSharedPref(foundUser);
-                    goToContacts();
-                }
-            }
+            return;
         }
+        /* user doesn't exist */
+        User foundUser = userViewModel.isUserExist(allUsers, username, 0);
+        if (foundUser == null) {
+            binding.username.setError(Constants.MSG_USER_NOT_FOUND);
+            return;
+        }
+        /* password wrong */
+        if (!foundUser.getPassword().equals(password)) {
+            binding.password.setError(Constants.MSG_WRONG_PASSWORD);
+            return;
+        }
+
+        Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS, Toast.LENGTH_SHORT).show();
+        saveUserAndSettingsToSharedPref(foundUser);
+        goToContacts();
     }
 
     private void changePassword() {
@@ -149,47 +125,52 @@ public class LoginFragment extends Fragment {
         btnDialog.setOnClickListener(v1 -> {
             EditText userTextInputDialog = changePasswordDialog.findViewById(R.id.user_input);
             String usernameInput = userTextInputDialog.getText().toString();
+            /* some fields are empty */
             if(usernameInput.isEmpty()) {
-                Toast.makeText(getActivity(), Constants.MSG_ENTER_USERNAME,Toast.LENGTH_SHORT).show();
-            } else {
-                User foundUser = userViewModel.isUserExist(allUsers, usernameInput, 0);
-                if (foundUser == null) {
-                    Toast.makeText(getActivity(), Constants.MSG_NO_USER_NEW_PASS, Toast.LENGTH_SHORT).show();
-                } else {
-                    // changing the dialog appearance
-                    userTextInputDialog.setText("");
-                    userTextInputDialog.setHint(R.string.new_password);
-                    userTextInputDialog.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signup_password, 0, 0, 0);
-                    btnDialog.setText(R.string.save_txt);
-
-                    btnDialog.setOnClickListener(v2 -> {
-                        String newPassword = userTextInputDialog.getText().toString();
-                        if (newPassword.isEmpty()) {
-                            Toast.makeText(getActivity(), Constants.MSG_ENTER_NEW_PASSWORD, Toast.LENGTH_SHORT).show();
-                        } else {
-                            foundUser.setPassword(newPassword);
-                            userViewModel.updateUser(foundUser);
-                            Toast.makeText(getActivity(), Constants.MSG_PASSWORD_CHANGED, Toast.LENGTH_SHORT).show();
-                            changePasswordDialog.dismiss();
-                        }
-                    });
-                }
+                userTextInputDialog.setError(Constants.MSG_FIELDS_MANDATORY);
+                return;
             }
+            /* user doesn't exist */
+            User foundUser = userViewModel.isUserExist(allUsers, usernameInput, 0);
+            if (foundUser == null) {
+                userTextInputDialog.setError(Constants.MSG_NO_USER_NEW_PASS);
+                return;
+            }
+
+            // changing the dialog appearance
+            userTextInputDialog.setText("");
+            userTextInputDialog.setHint(R.string.new_password);
+            userTextInputDialog.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signup_password, 0, 0, 0);
+            btnDialog.setText(R.string.save_txt);
+
+            btnDialog.setOnClickListener(v2 -> {
+                String newPassword = userTextInputDialog.getText().toString();
+                /* some fields are empty */
+                if (newPassword.isEmpty()) {
+                    userTextInputDialog.setError(Constants.MSG_FIELDS_MANDATORY);
+                    return;
+                }
+                foundUser.setPassword(newPassword);
+                userViewModel.updateUser(foundUser);
+                Toast.makeText(getActivity(), Constants.MSG_PASSWORD_CHANGED, Toast.LENGTH_SHORT).show();
+                changePasswordDialog.dismiss();
+            });
+
         });
         changePasswordDialog.show();
     }
 
-    private void saveToSharedPref(User foundUser) {
-        // save userId
-        prefManager.saveLoginUserData(foundUser);
-        // save contactSettings
+    private void saveUserAndSettingsToSharedPref(User foundUser) {
         ObjectMapper mapper = new ObjectMapper();
-        Settings settings = foundUser.getSettings();
         try {
-            String asString = mapper.writeValueAsString(settings);
+            // save user
+            String asString = mapper.writeValueAsString(foundUser);
+            prefManager.saveUserData(asString);
+            // save settings
+            asString = mapper.writeValueAsString(foundUser.getSettings());
             prefManager.saveContactSettings(asString);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
         }
     }
 

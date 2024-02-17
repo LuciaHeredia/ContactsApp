@@ -19,6 +19,8 @@ import com.example.contactsapp.databinding.FragmentContactInfoBinding;
 import com.example.contactsapp.presentation.ContactViewModel;
 import com.example.contactsapp.utils.Constants;
 import com.example.contactsapp.utils.PrefManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ContactInfoFragment extends Fragment {
     private PrefManager prefManager;
@@ -42,27 +44,21 @@ public class ContactInfoFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentContactInfoBinding.inflate(inflater, container, false);
-        initContactFromDb();
-        getContactInfoById();
+        contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
+        initContactFromSharedPref();
         listenerSetup();
         return binding.getRoot();
     }
 
-    private void initContactFromDb() {
-        contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
-        observeSetup();
-    }
-
-    private void observeSetup() {
-        contactViewModel.getContactByIdResults().observe(this,
-                contact -> {
-                    currentContact = contact;
-                    setContactInfo();
-                });
-    }
-
-    private void getContactInfoById() {
-        contactViewModel.getContactById(prefManager.getContactData());
+    private void initContactFromSharedPref() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String jsonString = prefManager.getContactData();
+            currentContact = mapper.readValue(jsonString, Contact.class);
+            setContactInfo();
+        } catch (JsonProcessingException e) {
+            Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setContactInfo() {
@@ -80,7 +76,7 @@ public class ContactInfoFragment extends Fragment {
 
     private void editContact() {
         goToEditContact();
-        // TODO
+        // TODO:
         //contactViewModel.updateContact(currentContact);
     }
 
@@ -102,6 +98,7 @@ public class ContactInfoFragment extends Fragment {
     }
 
     private void deleteContact() {
+        prefManager.saveContactData("");
         contactViewModel.deleteContact(currentContact);
         goToContacts();
     }

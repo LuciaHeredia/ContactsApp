@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -18,9 +19,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.contactsapp.R;
+import com.example.contactsapp.data.entities.Contact;
+import com.example.contactsapp.data.entities.User;
 import com.example.contactsapp.databinding.FragmentContactsBinding;
 import com.example.contactsapp.presentation.UserWithContactsViewModel;
 import com.example.contactsapp.presentation.models.Settings;
+import com.example.contactsapp.utils.Constants;
 import com.example.contactsapp.utils.ContactAdapter;
 import com.example.contactsapp.utils.PrefManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,6 +36,7 @@ public class ContactsFragment extends Fragment implements MenuProvider {
     private FragmentContactsBinding binding;
     private UserWithContactsViewModel userWithContactsViewModel;
     private ContactAdapter adapter;
+    private User currentUser;
     private Settings settings;
 
     @Override
@@ -53,7 +58,7 @@ public class ContactsFragment extends Fragment implements MenuProvider {
     ) {
         binding = FragmentContactsBinding.inflate(inflater, container, false);
         getActivity().addMenuProvider(this, getViewLifecycleOwner(), getLifecycle().getCurrentState().RESUMED);
-        initContactSettings();
+        initUserAndSettingsFromSharedPref();
         recyclerViewSetup();
         initContactsFromDb();
         listenerSetup();
@@ -70,13 +75,17 @@ public class ContactsFragment extends Fragment implements MenuProvider {
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    private void initContactSettings() {
-        String jsonString = prefManager.getContactSettings();
+    private void initUserAndSettingsFromSharedPref() {
         ObjectMapper mapper = new ObjectMapper();
         try {
+            // init user
+            String jsonString = prefManager.getUserData();
+            currentUser = mapper.readValue(jsonString, User.class);
+            // init settings
+            jsonString = prefManager.getContactSettings();
             settings = mapper.readValue(jsonString, Settings.class);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -89,19 +98,27 @@ public class ContactsFragment extends Fragment implements MenuProvider {
         binding.recyclerView.setHasFixedSize(true);
         adapter = new ContactAdapter();
         binding.recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(contact -> {
-            prefManager.saveContactData(contact);
+        adapter.setOnItemClickListener(this::saveContactToSharedPref);
+    }
+
+    private void saveContactToSharedPref(Contact contact) {
+        // save contact
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String asString = mapper.writeValueAsString(contact);
+            prefManager.saveContactData(asString);
             goToContactInfo();
-        });
+        } catch (JsonProcessingException e) {
+            Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initContactsFromDb() {
         userWithContactsViewModel = new ViewModelProvider(this).get(UserWithContactsViewModel.class);
-        userWithContactsViewModel.getUserWithContacts(prefManager.getLoginUserData()).observe(this,
+        userWithContactsViewModel.getUserWithContacts(currentUser.getUserId()).observe(this,
                 userWithContacts ->
                         adapter.setContacts(settings, userWithContacts.get(0).getContacts()));
     }
-
 
     private void goToContactInfo() {
         NavHostFragment.findNavController(ContactsFragment.this)
@@ -133,7 +150,6 @@ public class ContactsFragment extends Fragment implements MenuProvider {
         if(menuItem.getItemId()==R.id.contact_settings) {
             goToSettings();
         } else { // Logout
-            prefManager.saveUserToDb(prefManager.getLoginUserData());
             prefManager.userLogout();
             goToLogin();
         }

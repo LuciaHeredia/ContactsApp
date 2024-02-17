@@ -42,13 +42,12 @@ public class User {
     }
 
     /**
-     * A Mock User
-     * @param userId from an already existing user.
+     * Empty Constructor
      */
     @Ignore
-    public User(Integer userId) {
-        this.userId = userId;
+    public User() {
     }
+
 
     //* Setters *//
 

@@ -20,6 +20,8 @@ import com.example.contactsapp.databinding.FragmentAddContactBinding;
 import com.example.contactsapp.presentation.ContactViewModel;
 import com.example.contactsapp.utils.Constants;
 import com.example.contactsapp.utils.PrefManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AddContactFragment extends Fragment {
     private PrefManager prefManager;
@@ -90,17 +92,23 @@ public class AddContactFragment extends Fragment {
         contactViewModel.getGender(contact.getFirstName()).observe(this, genderResponse -> {
             String gender = genderResponse.getGender();
             contact.setGender(gender);
-            saveContact(contact);
+            saveContactToDb(contact);
         });
     }
 
-    private void saveContact(Contact contact) {
-        User user = new User(prefManager.getLoginUserData());
-        UserWithContacts userWithContacts = new UserWithContacts(user, null);
-        userWithContacts.setContact(contact);
-        contactViewModel.insertContact(userWithContacts);
-        Toast.makeText(getActivity(), Constants.MSG_CONTACT_ADD_SUCCESS,Toast.LENGTH_SHORT).show();
-        goToContacts();
+    private void saveContactToDb(Contact contact) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String jsonString = prefManager.getUserData();
+            User user = mapper.readValue(jsonString, User.class);
+            UserWithContacts userWithContacts = new UserWithContacts(user, null);
+            userWithContacts.setContact(contact);
+            contactViewModel.insertContact(userWithContacts);
+            Toast.makeText(getActivity(), Constants.MSG_CONTACT_ADD_SUCCESS,Toast.LENGTH_SHORT).show();
+            goToContacts();
+        } catch (JsonProcessingException e) {
+            Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void goToContacts() {
