@@ -72,7 +72,10 @@ public class AddContactFragment extends Fragment {
     }
 
     private void listenerSetup() {
-        binding.saveBtn.setOnClickListener(view1 -> addContact());
+        binding.saveBtn.setOnClickListener(view1 -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            addContact();
+        });
     }
 
     private void addContact() {
@@ -145,11 +148,13 @@ public class AddContactFragment extends Fragment {
         contact.setContactId(currentContact.getContactId());
         contact.setContactUserId(currentContact.getContactUserId());
         contactViewModel.updateContact(contact);
+        prefManager.saveEditContactInfoFlag(false);
         Toast.makeText(getActivity(), Constants.MSG_CHANGES_SAVED,Toast.LENGTH_SHORT).show();
         goToContacts();
     }
 
     private void goToContacts() {
+        binding.progressBar.setVisibility(View.INVISIBLE);
         NavHostFragment.findNavController(AddContactFragment.this)
                 .navigate(R.id.action_addContactFragment_to_contactsFragment);
     }

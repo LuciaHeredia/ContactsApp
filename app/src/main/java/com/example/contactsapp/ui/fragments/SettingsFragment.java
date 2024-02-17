@@ -72,7 +72,10 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         binding.phoneSwitch.setOnCheckedChangeListener(this);
         binding.emailSwitch.setOnCheckedChangeListener(this);
         // save btn
-        binding.saveBtn.setOnClickListener(view1 -> saveContactSettings());
+        binding.saveBtn.setOnClickListener(view1 -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            saveContactSettings();
+        });
     }
 
     @Override
@@ -116,6 +119,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             asString = mapper.writeValueAsString(user);
             prefManager.saveUserData(asString);
             Toast.makeText(getActivity(), Constants.MSG_CHANGES_SAVED,Toast.LENGTH_SHORT).show();
+            binding.progressBar.setVisibility(View.INVISIBLE);
         } catch (JsonProcessingException e) {
             Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
         }

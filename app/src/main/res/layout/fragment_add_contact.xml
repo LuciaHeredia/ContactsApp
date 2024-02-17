@@ -11,6 +11,7 @@
     tools:context=".ui.fragments.AddContactFragment">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -99,15 +100,24 @@
                 android:maxLength="40"
                 android:inputType="textEmailAddress" />
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"
+                style="?android:attr/progressBarStyle"/>
+
             <Button
                 android:id="@+id/save_btn"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="@string/save_txt"
                 android:textSize="18sp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/blue"
-                app:cornerRadius = "20dp"/>
+                app:cornerRadius="20dp"/>
 
         </LinearLayout>
 

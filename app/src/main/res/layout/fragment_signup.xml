@@ -83,13 +83,22 @@
                 android:maxLength="15"
                 android:inputType="textPassword"/>
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:visibility="invisible"
+                style="?android:attr/progressBarStyle"/>
+
             <Button
                 android:id="@+id/signupButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="@string/continue_txt"
                 android:textSize="18sp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/blue"
                 app:cornerRadius = "20dp"/>
 

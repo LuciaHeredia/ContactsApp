@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -71,7 +72,10 @@ public class LoginFragment extends Fragment {
     }
 
     private void loginListenerSetup() {
-        binding.loginButton.setOnClickListener(view1 -> loginAuth());
+        binding.loginButton.setOnClickListener(view1 -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            loginAuth();
+        });
         binding.signupText.setOnClickListener(view2 -> goToSignup());
         binding.forgotPasswordText.setOnClickListener(view3 -> changePassword());
     }
@@ -100,22 +104,26 @@ public class LoginFragment extends Fragment {
         /* some fields are empty */
         if(username.isEmpty() || password.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
+            binding.progressBar.setVisibility(View.INVISIBLE);
             return;
         }
         /* user doesn't exist */
         User foundUser = userViewModel.isUserExist(allUsers, username, 0);
         if (foundUser == null) {
             binding.username.setError(Constants.MSG_USER_NOT_FOUND);
+            binding.progressBar.setVisibility(View.INVISIBLE);
             return;
         }
         /* password wrong */
         if (!foundUser.getPassword().equals(password)) {
             binding.password.setError(Constants.MSG_WRONG_PASSWORD);
+            binding.progressBar.setVisibility(View.INVISIBLE);
             return;
         }
 
         Toast.makeText(getActivity(), Constants.MSG_LOG_SUCCESS, Toast.LENGTH_SHORT).show();
         saveUserAndSettingsToSharedPref(foundUser);
+        binding.progressBar.setVisibility(View.INVISIBLE);
         goToContacts();
     }
 
@@ -144,8 +152,9 @@ public class LoginFragment extends Fragment {
             userTextInputDialog.setFilters(new InputFilter[] { new InputFilter.LengthFilter(15) });
             userTextInputDialog.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signup_password, 0, 0, 0);
             btnDialog.setText(R.string.save_txt);
-
+            ProgressBar pgsBar = changePasswordDialog.findViewById(R.id.progressBar);
             btnDialog.setOnClickListener(v2 -> {
+                pgsBar.setVisibility(View.VISIBLE);
                 String newPassword = userTextInputDialog.getText().toString();
                 /* some fields are empty */
                 if (newPassword.isEmpty()) {
@@ -155,6 +164,7 @@ public class LoginFragment extends Fragment {
                 foundUser.setPassword(newPassword);
                 userViewModel.updateUser(foundUser);
                 Toast.makeText(getActivity(), Constants.MSG_PASSWORD_CHANGED, Toast.LENGTH_SHORT).show();
+                pgsBar.setVisibility(View.INVISIBLE);
                 changePasswordDialog.dismiss();
             });
 

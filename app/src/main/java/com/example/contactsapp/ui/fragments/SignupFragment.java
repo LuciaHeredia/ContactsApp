@@ -37,7 +37,10 @@ public class SignupFragment extends Fragment {
     }
 
     private void listenerSetup() {
-        binding.signupButton.setOnClickListener(view1 -> signupAuth());
+        binding.signupButton.setOnClickListener(view1 -> {
+            binding.progressBar.setVisibility(View.VISIBLE);
+            signupAuth();
+        });
     }
 
     private void initUsersFromDb() {
@@ -78,6 +81,7 @@ public class SignupFragment extends Fragment {
         User newUser = new User(username, password1);
         userViewModel.insertUser(newUser);
         Toast.makeText(getActivity(), Constants.MSG_USER_ADD_SUCCESS,Toast.LENGTH_SHORT).show();
+        binding.progressBar.setVisibility(View.INVISIBLE);
         goToLogin();
     }
 
