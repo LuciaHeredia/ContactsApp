@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_contactInfoFragment_to_contactsFragment"
             app:destination="@id/contactsFragment" />
+        <action
+            android:id="@+id/action_contactInfoFragment_to_editContactFragment"
+            app:destination="@id/addContactFragment" />
     </fragment>
 
 </navigation>

@@ -79,8 +79,9 @@ public class ContactInfoFragment extends Fragment {
     }
 
     private void editContact() {
-        // TODO: show contact info in add new contact fragment
-        contactViewModel.updateContact(currentContact);
+        goToEditContact();
+        // TODO
+        //contactViewModel.updateContact(currentContact);
     }
 
     private void alertDialogDelete(){
@@ -108,6 +109,11 @@ public class ContactInfoFragment extends Fragment {
     private void goToContacts() {
         NavHostFragment.findNavController(ContactInfoFragment.this)
                 .navigate(R.id.action_contactInfoFragment_to_contactsFragment);
+    }
+
+    private void goToEditContact() {
+        NavHostFragment.findNavController(ContactInfoFragment.this)
+                .navigate(R.id.action_contactInfoFragment_to_editContactFragment);
     }
 
     @Override
