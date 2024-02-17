@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,10 +7,18 @@
     android:background="@drawable/app_background"
     tools:context=".ui.fragments.ContactsFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="?android:attr/progressBarStyle"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         tools:listitem="@layout/contact_item"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -23,4 +31,4 @@
         android:backgroundTint="@color/blue"
         android:contentDescription="@string/add" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

@@ -115,8 +115,12 @@ public class ContactsFragment extends Fragment implements MenuProvider {
     private void initContactsFromDb() {
         UserWithContactsViewModel userWithContactsViewModel = new ViewModelProvider(this).get(UserWithContactsViewModel.class);
         userWithContactsViewModel.getUserWithContacts(currentUser.getUserId()).observe(this,
-                userWithContacts ->
-                        adapter.setContacts(settings, userWithContacts.get(0).getContacts()));
+                userWithContacts -> {
+                adapter.setContacts(settings, userWithContacts.get(0).getContacts());
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.progressBar.setVisibility(View.INVISIBLE);
+        });
+
     }
 
     private void goToContactInfo() {
