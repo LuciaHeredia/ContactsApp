@@ -19,16 +19,16 @@ tools:context=".ui.fragments.ContactInfoFragment">
     android:background="@drawable/custom_edit_text">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal"
-        android:padding="24dp">
+        android:padding="15dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="40dp"
+            android:paddingTop="20dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
@@ -126,14 +126,15 @@ tools:context=".ui.fragments.ContactInfoFragment">
                 android:id="@+id/tv_email_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
+            android:paddingBottom="20dp"
             android:orientation="horizontal"
             android:layout_gravity="center">
             <ImageButton
