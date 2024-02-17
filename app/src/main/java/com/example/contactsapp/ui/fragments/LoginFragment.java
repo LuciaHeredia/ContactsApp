@@ -133,7 +133,7 @@ public class LoginFragment extends Fragment {
 
                     btnDialog.setOnClickListener(v2 -> {
                         String newPassword = userTextInputDialog.getText().toString();
-                        if (newPassword.equals("")) {
+                        if (newPassword.isEmpty()) {
                             Toast.makeText(getActivity(), Constants.MSG_ENTER_NEW_PASSWORD, Toast.LENGTH_SHORT).show();
                         } else {
                             foundUser.setPassword(newPassword);
