@@ -49,6 +49,10 @@ public class Contact {
         this.contactUserId = contactUserId;
     }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     //* Getters *//
 
     public Integer getContactId() {

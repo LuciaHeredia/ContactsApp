@@ -55,7 +55,6 @@ public class AddContactFragment extends Fragment {
     private void addContact() {
         String fName = binding.etFirstName.getText().toString();
         String lName = binding.etLastName.getText().toString();
-        String gender = "male"; // TODO: from API
         String phone = binding.etPhone.getText().toString();
         String email = binding.etEmail.getText().toString();
         String date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
@@ -88,9 +87,16 @@ public class AddContactFragment extends Fragment {
             return;
         }
 
-        // TODO: get gender from api
-        Contact contactToAdd = new Contact(fName, lName, gender, phone, email, date);
-        saveContact(contactToAdd);
+        Contact contactToAdd = new Contact(fName, lName, "", phone, email, date);
+        GetGenderByNameResponse(contactToAdd);
+    }
+
+    private void GetGenderByNameResponse(Contact contact) {
+        contactViewModel.getGender(contact.getFirstName()).observe(this, genderResponse -> {
+            String gender = genderResponse.getGender();
+            contact.setGender(gender);
+            saveContact(contact);
+        });
     }
 
     private void saveContact(Contact contact) {
