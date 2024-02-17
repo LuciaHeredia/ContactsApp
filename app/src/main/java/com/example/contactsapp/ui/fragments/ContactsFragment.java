@@ -34,7 +34,6 @@ public class ContactsFragment extends Fragment implements MenuProvider {
 
     private PrefManager prefManager;
     private FragmentContactsBinding binding;
-    private UserWithContactsViewModel userWithContactsViewModel;
     private ContactAdapter adapter;
     private User currentUser;
     private Settings settings;
@@ -114,7 +113,7 @@ public class ContactsFragment extends Fragment implements MenuProvider {
     }
 
     private void initContactsFromDb() {
-        userWithContactsViewModel = new ViewModelProvider(this).get(UserWithContactsViewModel.class);
+        UserWithContactsViewModel userWithContactsViewModel = new ViewModelProvider(this).get(UserWithContactsViewModel.class);
         userWithContactsViewModel.getUserWithContacts(currentUser.getUserId()).observe(this,
                 userWithContacts ->
                         adapter.setContacts(settings, userWithContacts.get(0).getContacts()));

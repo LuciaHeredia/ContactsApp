@@ -63,9 +63,6 @@
         android:name="com.example.contactsapp.ui.fragments.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings">
-        <action
-            android:id="@+id/action_settingsFragment_to_contactsFragment"
-            app:destination="@id/contactsFragment" />
     </fragment>
 
     <fragment

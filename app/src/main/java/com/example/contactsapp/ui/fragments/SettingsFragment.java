@@ -11,9 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.contactsapp.R;
 import com.example.contactsapp.data.entities.User;
 import com.example.contactsapp.databinding.FragmentSettingsBinding;
 import com.example.contactsapp.presentation.UserViewModel;
@@ -121,11 +119,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         } catch (JsonProcessingException e) {
             Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void goToContacts() {
-        NavHostFragment.findNavController(SettingsFragment.this)
-                .navigate(R.id.action_settingsFragment_to_contactsFragment);
     }
 
     @Override

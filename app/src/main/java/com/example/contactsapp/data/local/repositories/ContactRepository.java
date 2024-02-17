@@ -3,8 +3,6 @@ package com.example.contactsapp.data.local.repositories;
 import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.contactsapp.data.entities.Contact;
 import com.example.contactsapp.data.entities.UserWithContacts;
 import com.example.contactsapp.data.local.daos.ContactDao;
@@ -12,8 +10,6 @@ import com.example.contactsapp.data.local.database.AppDatabase;
 
 public class ContactRepository {
     private ContactDao contactDao;
-    private MutableLiveData<Contact> contactSearchResults = new MutableLiveData<>();
-
 
     public ContactRepository(Application application) {
         // db call
@@ -32,19 +28,6 @@ public class ContactRepository {
 
     public void deleteContact(Contact contact) {
         new DeleteContactAsyncTask(contactDao).execute(contact);
-    }
-
-    public void getContactById(Integer contactId) {
-        GetContactAsyncTask task = new GetContactAsyncTask(contactDao);
-        task.delegate = this;
-        task.execute(contactId);
-    }
-    public void getContactAsyncFinished(Contact contact) {
-        contactSearchResults.setValue(contact);
-    }
-
-    public MutableLiveData<Contact> getContactByIdSearchResults() {
-        return contactSearchResults;
     }
 
 
@@ -92,25 +75,6 @@ public class ContactRepository {
         protected Void doInBackground(Contact... contacts) {
             contactDao.deleteContact(contacts[0]);
             return null;
-        }
-    }
-
-    private static class GetContactAsyncTask extends AsyncTask<Integer, Void, Contact> {
-        private ContactDao contactDao;
-        private ContactRepository delegate = null;
-
-        private GetContactAsyncTask(ContactDao contactDao) {
-            this.contactDao = contactDao;
-        }
-
-        @Override
-        protected Contact doInBackground(final Integer... integers) {
-            return contactDao.getContactById(integers[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Contact contact) {
-            delegate.getContactAsyncFinished(contact);
         }
     }
 

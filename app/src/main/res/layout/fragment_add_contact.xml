@@ -48,7 +48,7 @@
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="40dp"
                 android:autofillHints=""
-                android:maxLength="10"
+                android:maxLength="15"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -64,7 +64,7 @@
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="20dp"
                 android:autofillHints=""
-                android:maxLength="10"
+                android:maxLength="15"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -96,6 +96,7 @@
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="20dp"
                 android:autofillHints=""
+                android:maxLength="40"
                 android:inputType="textEmailAddress" />
 
             <Button

@@ -17,14 +17,11 @@ public class ContactViewModel extends AndroidViewModel {
 
     private ContactRepository repository;
     private GenderRepository genderRepository;
-    private MutableLiveData<Contact> contactSearchResults;
-
     private MutableLiveData<GenderResponse> genderResponseLiveData = new MutableLiveData<>();
 
     public ContactViewModel(@NonNull Application application) {
         super(application);
         repository = new ContactRepository(application);
-        contactSearchResults = repository.getContactByIdSearchResults();
         genderRepository = GenderRepository.getInstance();
     }
 
@@ -40,12 +37,6 @@ public class ContactViewModel extends AndroidViewModel {
         repository.deleteContact(contact);
     }
 
-    public MutableLiveData<Contact> getContactByIdResults() {
-        return contactSearchResults;
-    }
-    public void getContactById(Integer contactId) {
-        repository.getContactById(contactId);
-    }
 
     private MutableLiveData<GenderResponse> loadGender(String name) {
         return genderRepository.getListOfMoviesOutputs(name);

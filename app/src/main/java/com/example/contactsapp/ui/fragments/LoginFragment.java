@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,6 +141,7 @@ public class LoginFragment extends Fragment {
             // changing the dialog appearance
             userTextInputDialog.setText("");
             userTextInputDialog.setHint(R.string.new_password);
+            userTextInputDialog.setFilters(new InputFilter[] { new InputFilter.LengthFilter(15) });
             userTextInputDialog.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signup_password, 0, 0, 0);
             btnDialog.setText(R.string.save_txt);
 
