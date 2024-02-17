@@ -27,6 +27,8 @@ public class AddContactFragment extends Fragment {
     private PrefManager prefManager;
     private FragmentAddContactBinding binding;
     private ContactViewModel contactViewModel;
+    private Contact currentContact;
+    private Boolean editContactFlag;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -42,8 +44,31 @@ public class AddContactFragment extends Fragment {
     ) {
         binding = FragmentAddContactBinding.inflate(inflater, container, false);
         contactViewModel = new ViewModelProvider(this).get(ContactViewModel.class);
+        editContactFlag = prefManager.getEditContactInfoFlag();
+        if(editContactFlag) {
+            initContactFromSharedPref();
+        }
         listenerSetup();
         return binding.getRoot();
+    }
+
+    private void initContactFromSharedPref() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            String jsonString = prefManager.getContactData();
+            currentContact = mapper.readValue(jsonString, Contact.class);
+            setLayoutForEdit();
+        } catch (JsonProcessingException e) {
+            Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setLayoutForEdit() {
+        binding.titleText.setText(Constants.EDIT_TITLE);
+        binding.etFirstName.setText(currentContact.getFirstName());
+        binding.etLastName.setText(currentContact.getLastName());
+        binding.etPhone.setText(currentContact.getPhone());
+        binding.etEmail.setText(currentContact.getEmail());
     }
 
     private void listenerSetup() {
@@ -85,7 +110,11 @@ public class AddContactFragment extends Fragment {
         }
 
         Contact contactToAdd = new Contact(fName, lName, "", phone, email);
-        GetGenderByNameResponse(contactToAdd);
+        if(editContactFlag) {
+            updateContactInDb(contactToAdd);
+        } else {
+            GetGenderByNameResponse(contactToAdd);
+        }
     }
 
     private void GetGenderByNameResponse(Contact contact) {
@@ -109,6 +138,15 @@ public class AddContactFragment extends Fragment {
         } catch (JsonProcessingException e) {
             Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateContactInDb(Contact contact) {
+        contact.setGender(currentContact.getGender());
+        contact.setContactId(currentContact.getContactId());
+        contact.setContactUserId(currentContact.getContactUserId());
+        contactViewModel.updateContact(contact);
+        Toast.makeText(getActivity(), Constants.MSG_CHANGES_SAVED,Toast.LENGTH_SHORT).show();
+        goToContacts();
     }
 
     private void goToContacts() {

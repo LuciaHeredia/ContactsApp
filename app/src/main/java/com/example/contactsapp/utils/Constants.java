@@ -15,8 +15,6 @@ public class Constants {
     public static final String MSG_USER_ADD_SUCCESS = "Added successfully! Try to Login";
     public static final String MSG_NO_USER_NEW_PASS = "User doesn't exist, try again";
     public static final String MSG_PASSWORD_CHANGED = "Password changed. Try to Login";
-    public static final String MSG_ENTER_USERNAME = "Enter your username";
-    public static final String MSG_ENTER_NEW_PASSWORD = "Enter a new password";
     public static final String MSG_CONTACT_ADD_SUCCESS = "New Contact Added";
     public static final String MSG_ACCEPT_DELETE_CONTACT = "Are you sure you want to delete this contact?";
     public static final String MSG_YES = "YES";
@@ -25,8 +23,8 @@ public class Constants {
     public static final String MSG_SOMETHING_WRONG = "Something wrong happened,\ntry again later";
     public static final String MSG_CHANGES_SAVED = "Changes saved";
 
-
-
+    //* Edit Contact *//
+    public static final String EDIT_TITLE = "Edit Contact";
 
 
 }

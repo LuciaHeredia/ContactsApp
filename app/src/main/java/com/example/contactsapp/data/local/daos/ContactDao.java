@@ -8,7 +8,6 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.contactsapp.data.entities.Contact;
-import com.example.contactsapp.data.entities.User;
 
 @Dao
 public interface ContactDao {
@@ -27,13 +26,5 @@ public interface ContactDao {
     @Transaction
     @Query("SELECT * FROM contact_table WHERE contactId = :contactId")
     Contact getContactById(Integer contactId);
-
-    /*@Transaction
-    @Insert
-    void updateContact(Contact contact);*/
-
-    /*@Transaction
-    @Query("DELETE FROM contact_table")
-    void deleteAllContacts();*/
 
 }

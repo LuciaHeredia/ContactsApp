@@ -75,9 +75,8 @@ public class ContactInfoFragment extends Fragment {
     }
 
     private void editContact() {
+        prefManager.saveEditContactInfoFlag(true);
         goToEditContact();
-        // TODO:
-        //contactViewModel.updateContact(currentContact);
     }
 
     private void alertDialogDelete(){

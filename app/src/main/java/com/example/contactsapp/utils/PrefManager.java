@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 /**
  * userData - saves userData currently logged in. <br/><br/>
  * contactInfo - saves contactInfo to show when clicked in RecyclerView list. <br/><br/>
+ * editContactInfo_flag - flag for editing contact's info inside AddContactFragmentLayout. <br/><br/>
  * contactSettings - saves settings on what information to show about the contacts in RecyclerView list. <br/><br/>
  **/
 public class PrefManager {
@@ -23,15 +24,12 @@ public class PrefManager {
         userEdit.putString("userData", userObjToString);
         userEdit.apply();
     }
-
     public String getUserData() {
         return sharedPreferences.getString("userData","");
     }
-
     public boolean isUserLoggedIn() {
         return !getUserData().isEmpty();
     }
-
     public void userLogout() {
         SharedPreferences.Editor userEdit = sharedPreferences.edit();
         userEdit.putString("userData", "");
@@ -43,9 +41,17 @@ public class PrefManager {
         contactEdit.putString("contactInfo", contactObjToString);
         contactEdit.apply();
     }
-
     public String getContactData() {
         return sharedPreferences.getString("contactInfo","");
+    }
+
+    public void saveEditContactInfoFlag(Boolean bool) {
+        SharedPreferences.Editor contactEdit = sharedPreferences.edit();
+        contactEdit.putBoolean("editContactInfo_flag", bool);
+        contactEdit.apply();
+    }
+    public Boolean getEditContactInfoFlag() {
+        return sharedPreferences.getBoolean("editContactInfo_flag",false);
     }
 
     public void saveContactSettings(String settingsObjToString) {
@@ -53,7 +59,6 @@ public class PrefManager {
         contactEdit.putString("contactSettings", settingsObjToString);
         contactEdit.apply();
     }
-
     public String getContactSettings() {
         return sharedPreferences.getString("contactSettings","");
     }
