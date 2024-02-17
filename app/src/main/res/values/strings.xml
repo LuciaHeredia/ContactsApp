@@ -42,6 +42,7 @@
     <string name="choose_contact_info">Choose what contact information to see:</string>
 
     //* Contact Info *//
+    <string name="contact_info">Contact Info</string>
     <string name="first_name_field">First Name:</string>
     <string name="last_name_field">Last Name:</string>
     <string name="edit">Edit</string>

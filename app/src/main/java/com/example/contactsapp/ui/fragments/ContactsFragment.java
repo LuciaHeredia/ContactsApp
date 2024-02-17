@@ -74,12 +74,21 @@ public class ContactsFragment extends Fragment implements MenuProvider {
         binding.recyclerView.setHasFixedSize(true);
         adapter = new ContactAdapter();
         binding.recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(contact -> {
+            prefManager.saveContactData(contact);
+            goToContactInfo();
+        });
     }
 
     private void initContactsFromDb() {
         userWithContactsViewModel = new ViewModelProvider(this).get(UserWithContactsViewModel.class);
         userWithContactsViewModel.getUserWithContacts(prefManager.getLoginUserData()).observe(this,
                 userWithContacts -> adapter.setContacts(userWithContacts.get(0).getContacts()));
+    }
+
+    private void goToContactInfo() {
+        NavHostFragment.findNavController(ContactsFragment.this)
+                .navigate(R.id.action_contactsFragment_to_contactInfoFragment);
     }
 
     private void goToAddContact() {

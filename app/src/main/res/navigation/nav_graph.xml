@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_contactsFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_contactsFragment_to_contactInfoFragment"
+            app:destination="@id/contactInfoFragment" />
     </fragment>
 
     <fragment
@@ -62,6 +65,16 @@
         tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_contactsFragment"
+            app:destination="@id/contactsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/contactInfoFragment"
+        android:name="com.example.contactsapp.ui.fragments.ContactInfoFragment"
+        android:label="@string/contact_info"
+        tools:layout="@layout/fragment_contact_info">
+        <action
+            android:id="@+id/action_contactInfoFragment_to_contactsFragment"
             app:destination="@id/contactsFragment" />
     </fragment>
 

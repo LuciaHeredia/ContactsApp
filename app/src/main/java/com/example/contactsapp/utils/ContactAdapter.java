@@ -1,6 +1,5 @@
 package com.example.contactsapp.utils;
 
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import java.util.List;
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> {
 
     private List<Contact> contacts = new ArrayList<>();
+    private  OnItemClickListener listener;
 
     @NonNull
     @Override
@@ -35,7 +35,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
         holder.tv_gender.setText(currentContact.getGender());
         holder.tv_phone.setText(currentContact.getPhone());
         holder.tv_email.setText(currentContact.getEmail());
-        holder.tv_date.setText(currentContact.getDate());
     }
 
     @Override
@@ -54,7 +53,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
         private TextView tv_gender;
         private TextView tv_phone;
         private TextView tv_email;
-        private TextView tv_date;
 
         public ContactHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,8 +61,25 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
             tv_gender = itemView.findViewById(R.id.tv_gender_data);
             tv_phone = itemView.findViewById(R.id.tv_phone_data);
             tv_email = itemView.findViewById(R.id.tv_email_data);
-            tv_date = itemView.findViewById(R.id.tv_date_data);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(contacts.get(position));
+                    }
+                }
+            });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Contact contact);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
 }
