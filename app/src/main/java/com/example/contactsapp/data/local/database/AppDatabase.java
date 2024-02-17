@@ -68,8 +68,8 @@ public abstract class AppDatabase extends RoomDatabase {
             userDao.insertUser(u);
 
             // insert contacts
-            Contact c1 = new Contact("gin", "segev","male", "444","email@ggg");
-            Contact c2 = new Contact("ron", "sss","male", "444","email@ggg");
+            Contact c1 = new Contact("gin", "segev","male", "0542125478","email@hh.com");
+            Contact c2 = new Contact("ron", "sss","male", "0548825998","email@gg.net");
 
             // i have the userId from shared preferences
             Integer userId = userDao.getUserByUsername(u.getUsername()).getUserId();
