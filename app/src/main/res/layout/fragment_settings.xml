@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/app_background"
+    android:background="@drawable/app_back"
     tools:context=".ui.fragments.SettingsFragment">
 
     <androidx.cardview.widget.CardView

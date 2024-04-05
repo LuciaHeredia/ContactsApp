@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/app_background"
+    android:background="@drawable/app_back"
     tools:context=".ui.fragments.LoginFragment">
 
     <androidx.cardview.widget.CardView
@@ -45,7 +45,8 @@
                 android:drawablePadding="8dp"
                 android:hint="@string/username"
                 android:padding="8dp"
-                android:textColor="@color/black"
+                style="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="40dp"
                 android:autofillHints=""
@@ -61,7 +62,8 @@
                 android:hint="@string/password"
                 android:padding="8dp"
                 android:inputType="textPassword"
-                android:textColor="@color/black"
+                style="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="20dp"
                 android:autofillHints="" />
