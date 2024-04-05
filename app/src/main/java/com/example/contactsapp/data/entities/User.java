@@ -18,6 +18,7 @@ public class User {
 
     private boolean showLastName;
     private boolean showGender;
+    private String showGenderChoiceStr;
     private boolean showPhone;
     private boolean showEmail;
 
@@ -37,6 +38,7 @@ public class User {
         this.settings = new Settings();
         this.showLastName = true;
         this.showGender = true;
+        this.showGenderChoiceStr = "Text";
         this.showPhone = true;
         this.showEmail = true;
     }
@@ -69,6 +71,11 @@ public class User {
         this.showGender = showGender;
     }
 
+    public void setShowGenderChoiceStr(String showGenderChoiceStr) {
+        this.settings.setShowGenderChoiceStr(showGenderChoiceStr);
+        this.showGenderChoiceStr = showGenderChoiceStr;
+    }
+
     public void setShowPhone(boolean showPhone) {
         this.settings.setShowPhone(showPhone);
         this.showPhone = showPhone;
@@ -99,6 +106,10 @@ public class User {
 
     public boolean isShowGender() {
         return showGender;
+    }
+
+    public String getShowGenderChoiceStr() {
+        return showGenderChoiceStr;
     }
 
     public boolean isShowPhone() {

@@ -68,6 +68,40 @@
                 android:maxLength="15"
                 android:inputType="textPersonName" />
 
+            <RadioGroup
+                android:id="@+id/gender_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:text="@string/gender_field"/>
+
+                <RadioButton
+                    android:id="@+id/m_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:checked="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:text="@string/male" />
+
+                <RadioButton
+                    android:id="@+id/f_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:text="@string/female" />
+            </RadioGroup>
+
             <EditText
                 android:id="@+id/et_phone"
                 android:layout_width="match_parent"
@@ -79,7 +113,7 @@
                 android:padding="8dp"
                 style="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:autofillHints=""
                 android:maxLength="10"
                 android:inputType="phone" />

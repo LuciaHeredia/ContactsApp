@@ -23,6 +23,8 @@ import com.example.contactsapp.utils.PrefManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Objects;
+
 public class AddContactFragment extends Fragment {
     private PrefManager prefManager;
     private FragmentAddContactBinding binding;
@@ -67,6 +69,11 @@ public class AddContactFragment extends Fragment {
         binding.titleText.setText(Constants.EDIT_TITLE);
         binding.etFirstName.setText(currentContact.getFirstName());
         binding.etLastName.setText(currentContact.getLastName());
+        if(Objects.equals(currentContact.getGender(), "Male")) {
+            binding.genderGroup.check(binding.mRb.getId());
+        } else {
+            binding.genderGroup.check(binding.fRb.getId());
+        }
         binding.etPhone.setText(currentContact.getPhone());
         binding.etEmail.setText(currentContact.getEmail());
     }
@@ -81,6 +88,10 @@ public class AddContactFragment extends Fragment {
     private void addContact() {
         String fName = binding.etFirstName.getText().toString();
         String lName = binding.etLastName.getText().toString();
+        String gender = "Male";
+        if(binding.genderGroup.getCheckedRadioButtonId()==binding.fRb.getId()) {
+            gender = "Female";
+        }
         String phone = binding.etPhone.getText().toString();
         String email = binding.etEmail.getText().toString();
         boolean phoneOK = true;
@@ -114,11 +125,12 @@ public class AddContactFragment extends Fragment {
             return;
         }
 
-        Contact contactToAdd = new Contact(fName, lName, "", phone, email);
+        Contact contactToAdd = new Contact(fName, lName, gender, phone, email);
         if(editContactFlag) {
             updateContactInDb(contactToAdd);
         } else {
-            GetGenderByNameResponse(contactToAdd);
+            //GetGenderByNameResponse(contactToAdd);
+            saveContactToDb(contactToAdd);
         }
     }
 
@@ -147,7 +159,6 @@ public class AddContactFragment extends Fragment {
     }
 
     private void updateContactInDb(Contact contact) {
-        contact.setGender(currentContact.getGender());
         contact.setContactId(currentContact.getContactId());
         contact.setContactUserId(currentContact.getContactUserId());
         contactViewModel.updateContact(contact);

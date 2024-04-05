@@ -3,15 +3,17 @@ package com.example.contactsapp.presentation.models;
 public class Settings {
     private boolean showLastName;
     private boolean showGender;
+    private String ShowGenderChoiceStr;
     private boolean showPhone;
     private boolean showEmail;
 
     /**
      * Constructor
      */
-    public Settings(boolean showLastName, boolean showGender, boolean showPhone, boolean showEmail) {
+    public Settings(boolean showLastName, boolean showGender, String ShowGenderChoiceStr, boolean showPhone, boolean showEmail) {
         this.showLastName = showLastName;
         this.showGender = showGender;
+        this.ShowGenderChoiceStr = ShowGenderChoiceStr;
         this.showPhone = showPhone;
         this.showEmail = showEmail;
     }
@@ -32,6 +34,10 @@ public class Settings {
         this.showGender = showGender;
     }
 
+    public void setShowGenderChoiceStr(String showGenderChoiceStr) {
+        this.ShowGenderChoiceStr = showGenderChoiceStr;
+    }
+
     public void setShowPhone(boolean showPhone) {
         this.showPhone = showPhone;
     }
@@ -49,6 +55,10 @@ public class Settings {
 
     public boolean isShowGender() {
         return showGender;
+    }
+
+    public String getShowGenderChoiceStr() {
+        return ShowGenderChoiceStr;
     }
 
     public boolean isShowPhone() {

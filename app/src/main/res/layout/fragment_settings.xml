@@ -67,6 +67,43 @@
                 android:layout_marginEnd="10dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
 
+            <RadioGroup
+                android:id="@+id/gender_by_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start"
+                android:visibility="gone"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:text="@string/by_field"/>
+
+                <RadioButton
+                    android:id="@+id/text_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:text="@string/text_rb_choice" />
+
+                <RadioButton
+                    android:id="@+id/color_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="5dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:text="@string/color_rb_choice" />
+            </RadioGroup>
+
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/phone_switch"
                 android:layout_width="match_parent"

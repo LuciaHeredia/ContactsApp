@@ -21,6 +21,8 @@ import com.example.contactsapp.utils.PrefManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Objects;
+
 public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener {
 
     private PrefManager prefManager;
@@ -61,6 +63,14 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     private void setContactSettings() {
         binding.lastNameSwitch.setChecked(settings.isShowLastName());
         binding.genderSwitch.setChecked(settings.isShowGender());
+        if(settings.isShowGender()) {
+            binding.genderByGroup.setVisibility(View.VISIBLE);
+            if(Objects.equals(settings.getShowGenderChoiceStr(), "Text")) {
+                binding.genderByGroup.check(binding.textRb.getId());
+            } else {
+                binding.genderByGroup.check(binding.colorRb.getId());
+            }
+        }
         binding.phoneSwitch.setChecked(settings.isShowPhone());
         binding.emailSwitch.setChecked(settings.isShowEmail());
     }
@@ -84,6 +94,12 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             settings.setShowLastName(isChecked);
         } else if(compoundButton.getId()==binding.genderSwitch.getId()) {
             settings.setShowGender(isChecked);
+            if(isChecked) {
+                binding.genderByGroup.setVisibility(View.VISIBLE);
+                binding.genderByGroup.check(binding.textRb.getId());
+            } else {
+                binding.genderByGroup.setVisibility(View.GONE);
+            }
         } else if(compoundButton.getId()==binding.phoneSwitch.getId()) {
             settings.setShowPhone(isChecked);
         } else {
@@ -92,6 +108,14 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     }
 
     private void saveContactSettings() {
+        if(settings.isShowGender()) {
+            if(binding.genderByGroup.getCheckedRadioButtonId()==binding.textRb.getId()) {
+                settings.setShowGenderChoiceStr("Text");
+            } else {
+                settings.setShowGenderChoiceStr("Color");
+            }
+        }
+
         saveUserAndSettingsToDB();
     }
 
@@ -102,6 +126,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             User user = mapper.readValue(jsonString, User.class);
             user.setShowLastName(settings.isShowLastName());
             user.setShowGender(settings.isShowGender());
+            user.setShowGenderChoiceStr(settings.getShowGenderChoiceStr());
             user.setShowPhone(settings.isShowPhone());
             user.setShowEmail(settings.isShowEmail());
             userViewModel.updateUser(user);

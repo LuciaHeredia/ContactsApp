@@ -7,6 +7,8 @@
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 
     //* Login *//
     <string name="login">Login</string>
@@ -40,6 +42,9 @@
     <string name="settings">Settings</string>
     <string name="settings_date">Added Date</string>
     <string name="choose_contact_info">Choose what contact information to see in the list:</string>
+    <string name="by_field">By:</string>
+    <string name="text_rb_choice">Text</string>
+    <string name="color_rb_choice">Color</string>
 
     //* Contact Info *//
     <string name="contact_info">Contact Info</string>

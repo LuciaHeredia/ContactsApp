@@ -67,33 +67,13 @@ public abstract class AppDatabase extends RoomDatabase {
             Integer userId = userDao.getUserByUsername(u.getUsername()).getUserId();
 
             // insert contacts
-            Contact c = new Contact("Gin", "Sagiv","male", "0542125478","emailGin@hh.com");
+            Contact c = new Contact("Gin", "Sagiv","Male", "0542125478","emailGin@hh.com");
             c.setContactUserId(userId);
             contactDao.insertContact(c);
-            c = new Contact("Ronald", "Johnston","male", "0548825998","RonaldEmail@gg.net");
+            c = new Contact("Yam", "Kar","Female", "0542333322","effsdfasdasd@gg.net");
             c.setContactUserId(userId);
             contactDao.insertContact(c);
-            c = new Contact("Yam", "Kar","female", "0542333322","effsdfasdasd@gg.net");
-            c.setContactUserId(userId);
-            contactDao.insertContact(c);
-            c = new Contact("Doron", "Levi","male", "0547667898","doronlevi1999@walla.net");
-            c.setContactUserId(userId);
-            contactDao.insertContact(c);
-            c = new Contact("Haim", "Hadar","male", "0521111111","haim99@walla.com");
-            c.setContactUserId(userId);
-            contactDao.insertContact(c);
-            c = new Contact("Mccoy", "Reese","male", "0521666666","Reese2000@walla.com");
-            c.setContactUserId(userId);
-            contactDao.insertContact(c);
-            c = new Contact("Gustavo", "Humphrey","male", "0526566565","HumphreyHumphrey@walla.com");
-            c.setContactUserId(userId);
-            contactDao.insertContact(c);
-            c = new Contact("Sergio", "Fitzpatrick","male", "0521111111","Fitzpatrick99@walla.com");
-            c.setContactUserId(userId);
-            contactDao.insertContact(c);
-            c = new Contact("Whitney", "Swanson","female", "0521111111","WhitneySwanson25@walla.com");
-            c.setContactUserId(userId);
-            contactDao.insertContact(c);
+
 
             return null;
         }

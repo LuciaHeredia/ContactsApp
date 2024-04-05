@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,17 +43,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
         holder.tv_phone.setText(currentContact.getPhone());
         holder.tv_email.setText(currentContact.getEmail());
 
-        holder.ll_gender.setVisibility(View.VISIBLE);
-        holder.ll_phone.setVisibility(View.VISIBLE);
-        holder.ll_email.setVisibility(View.VISIBLE);
-
-        /* CardColor based on Gender */
-        if(Objects.equals(currentContact.getGender().toLowerCase(), "female")) {
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#fff0f7"));
-        } else {
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#dbeeff"));
-        }
-
         /* Settings - show last name */
         if(!settings.isShowLastName()) {
             holder.tv_lastName.setText("");
@@ -65,16 +52,33 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
         if(!settings.isShowGender()) {
             holder.ll_gender.setVisibility(View.GONE);
             holder.cardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
+        } else {
+            if(Objects.equals(settings.getShowGenderChoiceStr(), "Text")) {
+                holder.cardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
+                holder.ll_gender.setVisibility(View.VISIBLE);
+            } else {
+                holder.ll_gender.setVisibility(View.GONE);
+                /* CardColor based on Gender */
+                if(Objects.equals(currentContact.getGender(), "Male")) {
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#dbeeff"));
+                } else {
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#fff0f7"));
+                }
+            }
         }
 
         /* Settings - show phone */
         if(!settings.isShowPhone()) {
             holder.ll_phone.setVisibility(View.GONE);
+        } else {
+            holder.ll_phone.setVisibility(View.VISIBLE);
         }
 
         /* Settings - show email */
         if(!settings.isShowEmail()) {
             holder.ll_email.setVisibility(View.GONE);
+        } else {
+            holder.ll_email.setVisibility(View.VISIBLE);
         }
 
     }
