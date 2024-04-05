@@ -89,6 +89,7 @@ public class AddContactFragment extends Fragment {
         /* some fields are empty */
         if(fName.isEmpty() || lName.isEmpty() || phone.isEmpty() || email.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
+            binding.progressBar.setVisibility(View.INVISIBLE);
             return;
         }
         /* phone must be 10 numbers */
@@ -109,6 +110,7 @@ public class AddContactFragment extends Fragment {
         }
 
         if(!phoneOK || !emailOK) {
+            binding.progressBar.setVisibility(View.INVISIBLE);
             return;
         }
 
@@ -139,6 +141,7 @@ public class AddContactFragment extends Fragment {
             Toast.makeText(getActivity(), Constants.MSG_CONTACT_ADD_SUCCESS,Toast.LENGTH_SHORT).show();
             goToContacts();
         } catch (JsonProcessingException e) {
+            binding.progressBar.setVisibility(View.INVISIBLE);
             Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
         }
     }
@@ -157,6 +160,14 @@ public class AddContactFragment extends Fragment {
         binding.progressBar.setVisibility(View.INVISIBLE);
         NavHostFragment.findNavController(AddContactFragment.this)
                 .navigate(R.id.action_addContactFragment_to_contactsFragment);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if(prefManager.getEditContactInfoFlag()) {
+            prefManager.saveEditContactInfoFlag(false);
+        }
     }
 
     @Override

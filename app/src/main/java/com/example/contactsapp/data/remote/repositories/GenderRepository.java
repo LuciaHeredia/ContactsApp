@@ -28,7 +28,7 @@ public class GenderRepository {
         genderResponseLiveData = new MutableLiveData<>();
     }
 
-    public MutableLiveData<GenderResponse> getListOfMoviesOutputs(String name) {
+    public MutableLiveData<GenderResponse> getGenderOutput(String name) {
         Call<GenderResponse> responseCall = api.getGenderByName(name);
         responseCall.enqueue(new Callback<GenderResponse>() {
             @Override

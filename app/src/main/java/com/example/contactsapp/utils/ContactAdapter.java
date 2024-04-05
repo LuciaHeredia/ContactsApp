@@ -14,6 +14,8 @@ import com.example.contactsapp.data.entities.Contact;
 import com.example.contactsapp.presentation.models.Settings;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> {
@@ -71,6 +73,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
 
     public void setContacts(Settings settings, List<Contact> contacts) {
         this.settings = settings;
+
+        // sort contacts by first name in alphabetical order
+        Collections.sort(contacts, new Comparator<Contact>() {
+            @Override
+            public int compare(Contact lhs, Contact rhs) {
+                return lhs.getFirstName().toLowerCase().compareTo(rhs.getFirstName().toLowerCase());
+            }
+        });
+
         this.contacts = contacts;
         notifyDataSetChanged();
     }

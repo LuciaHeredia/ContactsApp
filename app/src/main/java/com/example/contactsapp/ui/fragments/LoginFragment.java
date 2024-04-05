@@ -130,35 +130,40 @@ public class LoginFragment extends Fragment {
     private void changePassword() {
         Dialog changePasswordDialog = new Dialog(getActivity());
         changePasswordDialog.setContentView(R.layout.forgot_password_dialog);
+        ProgressBar pgsBar = changePasswordDialog.findViewById(R.id.progressBar);
         Button btnDialog = changePasswordDialog.findViewById(R.id.continue_btn);
         btnDialog.setOnClickListener(v1 -> {
+            pgsBar.setVisibility(View.VISIBLE);
             EditText userTextInputDialog = changePasswordDialog.findViewById(R.id.user_input);
             String usernameInput = userTextInputDialog.getText().toString();
             /* some fields are empty */
             if(usernameInput.isEmpty()) {
                 userTextInputDialog.setError(Constants.MSG_FIELDS_MANDATORY);
+                pgsBar.setVisibility(View.INVISIBLE);
                 return;
             }
             /* user doesn't exist */
             User foundUser = userViewModel.isUserExist(allUsers, usernameInput, 0);
             if (foundUser == null) {
                 userTextInputDialog.setError(Constants.MSG_NO_USER_NEW_PASS);
+                pgsBar.setVisibility(View.INVISIBLE);
                 return;
             }
 
             // changing the dialog appearance
+            pgsBar.setVisibility(View.INVISIBLE);
             userTextInputDialog.setText("");
             userTextInputDialog.setHint(R.string.new_password);
             userTextInputDialog.setFilters(new InputFilter[] { new InputFilter.LengthFilter(15) });
             userTextInputDialog.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signup_password, 0, 0, 0);
             btnDialog.setText(R.string.save_txt);
-            ProgressBar pgsBar = changePasswordDialog.findViewById(R.id.progressBar);
             btnDialog.setOnClickListener(v2 -> {
                 pgsBar.setVisibility(View.VISIBLE);
                 String newPassword = userTextInputDialog.getText().toString();
                 /* some fields are empty */
                 if (newPassword.isEmpty()) {
                     userTextInputDialog.setError(Constants.MSG_FIELDS_MANDATORY);
+                    pgsBar.setVisibility(View.INVISIBLE);
                     return;
                 }
                 foundUser.setPassword(newPassword);

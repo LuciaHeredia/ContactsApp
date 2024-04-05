@@ -59,6 +59,7 @@ public class SignupFragment extends Fragment {
         /* some fields are empty */
         if(username.isEmpty() || password1.isEmpty() || password2.isEmpty()) {
             Toast.makeText(getActivity(), Constants.MSG_FIELDS_MANDATORY,Toast.LENGTH_SHORT).show();
+            binding.progressBar.setVisibility(View.INVISIBLE);
             return;
         }
         /* username already exist */
@@ -75,6 +76,7 @@ public class SignupFragment extends Fragment {
         }
 
         if(!usernameOK || !passwordsOK) {
+            binding.progressBar.setVisibility(View.INVISIBLE);
             return;
         }
 
