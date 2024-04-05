@@ -11,9 +11,7 @@ Signup/Login is required initially. <br/>
 3. In the Settings screen, you can choose what contact information to see in the list. <br/>
 
 ## Includes
-* Main activity with Fragments <br/>
-* Binding <br/>
-* Navigation graph <br/>
+* Main Activity with Fragments, Binding, Navigation graph <br/>
 * RecyclerView <br/>
 * Shared preferences, Jackson's ObjectMapper <br/>
 * Menu <br/>
