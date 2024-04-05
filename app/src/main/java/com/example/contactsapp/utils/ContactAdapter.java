@@ -1,12 +1,16 @@
 package com.example.contactsapp.utils;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contactsapp.R;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> {
     private Settings settings;
@@ -44,6 +49,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
         holder.ll_phone.setVisibility(View.VISIBLE);
         holder.ll_email.setVisibility(View.VISIBLE);
 
+        /* CardColor based on Gender */
+        if(Objects.equals(currentContact.getGender().toLowerCase(), "female")) {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#fff0f7"));
+        } else {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#dbeeff"));
+        }
+
         /* Settings - show last name */
         if(!settings.isShowLastName()) {
             holder.tv_lastName.setText("");
@@ -52,6 +64,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
         /* Settings - show gender */
         if(!settings.isShowGender()) {
             holder.ll_gender.setVisibility(View.GONE);
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
         }
 
         /* Settings - show phone */
@@ -87,6 +100,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
     }
 
     class ContactHolder extends RecyclerView.ViewHolder {
+        private CardView cardView;
         private TextView tv_firstName;
         private TextView tv_lastName;
         private TextView tv_gender;
@@ -98,6 +112,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
 
         public ContactHolder(@NonNull View itemView) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.card_view);
+
             tv_firstName = itemView.findViewById(R.id.tv_first_name);
             tv_lastName = itemView.findViewById(R.id.tv_last_name);
             tv_gender = itemView.findViewById(R.id.tv_gender_data);

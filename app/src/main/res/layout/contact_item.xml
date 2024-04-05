@@ -8,6 +8,7 @@
     android:layout_marginBottom="5dp"
     app:cardCornerRadius="30dp"
     app:cardElevation="8dp"
+    android:id="@+id/card_view"
     android:background="@drawable/custom_edit_text">
 
     <LinearLayout
