@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,6 +157,7 @@ public class LoginFragment extends Fragment {
             userTextInputDialog.setHint(R.string.new_password);
             userTextInputDialog.setFilters(new InputFilter[] { new InputFilter.LengthFilter(15) });
             userTextInputDialog.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_signup_password, 0, 0, 0);
+            userTextInputDialog.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
             btnDialog.setText(R.string.save_txt);
             btnDialog.setOnClickListener(v2 -> {
                 pgsBar.setVisibility(View.VISIBLE);

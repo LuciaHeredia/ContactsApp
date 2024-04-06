@@ -11,5 +11,6 @@
     //* App *//
     <color name="blue">#3282F6</color>
     <color name="dark_blue">#0F3564</color>
+    <color name="red">#e63946</color>
 
 </resources>

@@ -17,10 +17,13 @@
     <string name="new_password">Enter new password</string>
     <string name="change_password">Change Password</string>
     <string name="enter_your_username">Enter your username</string>
+    <string name="login_welcome">Welcome!</string>
 
     //* Signup *//
     <string name="signup">Signup</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="signup_hey_there">Hey there,</string>
+    <string name="signup_create_an_account">Create an Account</string>
 
     //* Contacts *//
     <string name="contacts">Contacts</string>
