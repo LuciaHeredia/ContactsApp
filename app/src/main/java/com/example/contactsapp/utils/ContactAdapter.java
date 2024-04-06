@@ -51,10 +51,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
         /* Settings - show gender */
         if(!settings.isShowGender()) {
             holder.ll_gender.setVisibility(View.GONE);
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
         } else {
             if(Objects.equals(settings.getShowGenderChoiceStr(), "Text")) {
-                holder.cardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
                 holder.ll_gender.setVisibility(View.VISIBLE);
             } else {
                 holder.ll_gender.setVisibility(View.GONE);
