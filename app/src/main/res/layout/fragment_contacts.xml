@@ -28,7 +28,6 @@
         android:src="@drawable/ic_contact_add"
         android:layout_gravity="bottom|end"
         android:layout_margin="22dp"
-        android:backgroundTint="@color/blue"
         android:contentDescription="@string/add" />
 
 </FrameLayout>
