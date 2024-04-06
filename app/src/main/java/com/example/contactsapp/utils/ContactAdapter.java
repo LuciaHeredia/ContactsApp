@@ -58,9 +58,9 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
                 holder.ll_gender.setVisibility(View.GONE);
                 /* CardColor based on Gender */
                 if(Objects.equals(currentContact.getGender(), "Male")) {
-                    holder.cardView.setCardBackgroundColor(Color.parseColor("#dbeeff"));
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#0582ca"));
                 } else {
-                    holder.cardView.setCardBackgroundColor(Color.parseColor("#fff0f7"));
+                    holder.cardView.setCardBackgroundColor(Color.parseColor("#e5989b"));
                 }
             }
         }
