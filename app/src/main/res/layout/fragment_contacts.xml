@@ -18,6 +18,8 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
         android:visibility="invisible"
         tools:listitem="@layout/contact_item"/>
 
