@@ -80,23 +80,55 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="24dp">
-            <Button
-                android:id="@+id/tv_c_item_phone"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/phone"
-                android:backgroundTint="@color/blue"
-                android:drawableEnd="@drawable/ic_call"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-            <Button
-                android:id="@+id/tv_c_item_email"
-                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/btn_call"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/custom_edit_text"
+                    android:contentDescription="@string/phone"
+                    android:src="@drawable/ic_call" />
+                <TextView
+                    android:id="@+id/tv_c_info_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/phone"
+                    android:focusable="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/email"
-                android:backgroundTint="@color/blue"
-                android:drawableEnd="@drawable/ic_mail"
                 android:layout_marginTop="10dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/btn_mail"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/custom_edit_text"
+                    android:contentDescription="@string/phone"
+                    android:src="@drawable/ic_mail" />
+                <TextView
+                    android:id="@+id/tv_c_info_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLines="2"
+                    android:text="@string/email"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -118,21 +150,17 @@
             android:orientation="horizontal">
             <ImageButton
                 android:id="@+id/delete_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_delete"
                 android:layout_marginEnd="40dp"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="20dp"
                 android:background="@drawable/custom_edit_text"
                 android:contentDescription="@string/delete" />
             <ImageButton
                 android:id="@+id/edit_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_edit"
-                app:cardCornerRadius="30dp"
-                app:cardElevation="20dp"
                 android:background="@drawable/custom_edit_text"
                 android:contentDescription="@string/edit" />
 

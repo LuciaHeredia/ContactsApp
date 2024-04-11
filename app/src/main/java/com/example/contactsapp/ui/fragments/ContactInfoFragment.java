@@ -67,27 +67,27 @@ public class ContactInfoFragment extends Fragment {
         binding.tvCInfoFirstName.setText(currentContact.getFirstName());
         binding.tvCInfoLastName.setText(currentContact.getLastName());
         binding.tvCInfoGender.setText(currentContact.getGender());
-        binding.tvCItemPhone.setText(currentContact.getPhone());
-        binding.tvCItemEmail.setText(currentContact.getEmail());
+        binding.tvCInfoPhone.setText(currentContact.getPhone());
+        binding.tvCInfoEmail.setText(currentContact.getEmail());
     }
 
     private void listenerSetup() {
-        binding.tvCItemPhone.setOnClickListener(viewCall -> openCallDialer());
-        binding.tvCItemEmail.setOnClickListener(viewEmail -> openMailApp());
+        binding.btnCall.setOnClickListener(viewCall -> openCallDialer());
+        binding.btnMail.setOnClickListener(viewEmail -> openMailApp());
         binding.editBtn.setOnClickListener(view1 -> editContact());
         binding.deleteBtn.setOnClickListener(view2 -> alertDialogDelete());
     }
 
     private void openCallDialer() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:"+binding.tvCItemPhone.getText().toString()));
+        intent.setData(Uri.parse("tel:"+binding.tvCInfoPhone.getText().toString()));
         startActivity(intent);
     }
 
     private void openMailApp() {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("mailto:"+binding.tvCItemEmail.getText().toString()));
+            intent.setData(Uri.parse("mailto:"+binding.tvCInfoEmail.getText().toString()));
             this.startActivity(intent);
         } catch (android.content.ActivityNotFoundException e) {
             Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
