@@ -13,7 +13,7 @@ tools:context=".ui.fragments.ContactInfoFragment">
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="30dp"
+    android:layout_margin="24dp"
     app:cardCornerRadius="30dp"
     app:cardElevation="20dp"
     android:background="@drawable/custom_edit_text">
@@ -22,8 +22,9 @@ tools:context=".ui.fragments.ContactInfoFragment">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center_horizontal"
-        android:padding="15dp">
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="24dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -31,19 +32,20 @@ tools:context=".ui.fragments.ContactInfoFragment">
             android:paddingTop="20dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/first_name_field"
-                android:maxLines="1"
-                android:layout_marginEnd="10dp"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-            <TextView
                 android:id="@+id/tv_first_Name_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                android:layout_marginEnd="10dp"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+            <TextView
+                android:id="@+id/tv_last_name_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
         </LinearLayout>
 
         <LinearLayout
@@ -51,82 +53,38 @@ tools:context=".ui.fragments.ContactInfoFragment">
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/last_name_field"
-                android:maxLines="1"
-                android:layout_marginEnd="10dp"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-            <TextView
-                android:id="@+id/tv_lastName_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/gender_field"
-                android:maxLines="1"
-                android:layout_marginEnd="10dp"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
             <TextView
                 android:id="@+id/tv_gender_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:hint="@string/gender"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/phone_field"
-                android:maxLines="1"
-                android:layout_marginEnd="10dp"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
             <TextView
                 android:id="@+id/tv_phone_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:hint="@string/phone"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/email_field"
-                android:maxLines="1"
-                android:layout_marginEnd="10dp"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
             <TextView
                 android:id="@+id/tv_email_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
+                android:hint="@string/email"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
         </LinearLayout>
 
