@@ -116,11 +116,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
             super(itemView);
             cardView = itemView.findViewById(R.id.card_view);
 
-            tv_firstName = itemView.findViewById(R.id.tv_first_name);
-            tv_lastName = itemView.findViewById(R.id.tv_last_name);
-            tv_gender = itemView.findViewById(R.id.tv_gender_data);
-            tv_phone = itemView.findViewById(R.id.tv_phone_data);
-            tv_email = itemView.findViewById(R.id.tv_email_data);
+            tv_firstName = itemView.findViewById(R.id.tv_c_item_first_name);
+            tv_lastName = itemView.findViewById(R.id.tv_c_item_last_name);
+            tv_gender = itemView.findViewById(R.id.tv_c_info_gender);
+            tv_phone = itemView.findViewById(R.id.tv_c_item_phone);
+            tv_email = itemView.findViewById(R.id.tv_c_item_email);
 
             ll_gender = itemView.findViewById(R.id.ll_gender);
             ll_phone = itemView.findViewById(R.id.ll_phone);
