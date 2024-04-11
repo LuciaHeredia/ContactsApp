@@ -1,6 +1,8 @@
 package com.example.contactsapp.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,16 +64,34 @@ public class ContactInfoFragment extends Fragment {
     }
 
     private void setContactInfo() {
-        binding.tvFirstNameData.setText(currentContact.getFirstName());
-        binding.tvLastNameData.setText(currentContact.getLastName());
-        binding.tvGenderData.setText(currentContact.getGender());
-        binding.tvPhoneData.setText(currentContact.getPhone());
-        binding.tvEmailData.setText(currentContact.getEmail());
+        binding.tvCInfoFirstName.setText(currentContact.getFirstName());
+        binding.tvCInfoLastName.setText(currentContact.getLastName());
+        binding.tvCInfoGender.setText(currentContact.getGender());
+        binding.tvCItemPhone.setText(currentContact.getPhone());
+        binding.tvCItemEmail.setText(currentContact.getEmail());
     }
 
     private void listenerSetup() {
+        binding.tvCItemPhone.setOnClickListener(viewCall -> openCallDialer());
+        binding.tvCItemEmail.setOnClickListener(viewEmail -> openMailApp());
         binding.editBtn.setOnClickListener(view1 -> editContact());
         binding.deleteBtn.setOnClickListener(view2 -> alertDialogDelete());
+    }
+
+    private void openCallDialer() {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:"+binding.tvCItemPhone.getText().toString()));
+        startActivity(intent);
+    }
+
+    private void openMailApp() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("mailto:"+binding.tvCItemEmail.getText().toString()));
+            this.startActivity(intent);
+        } catch (android.content.ActivityNotFoundException e) {
+            Toast.makeText(getActivity(), Constants.MSG_SOMETHING_WRONG, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void editContact() {
