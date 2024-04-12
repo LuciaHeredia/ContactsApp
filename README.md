@@ -1,6 +1,7 @@
 # Contacts App
 Add contacts to your list and decide what contact information to see. <br/>
 Signup/Login is required initially. <br/> 
+<img src = "README images/app_icon.png" height="300"> <br/>
 
 ## Description:
 1. In order to save your contacts, first Signup and a space in the DB will be created. <br/>
