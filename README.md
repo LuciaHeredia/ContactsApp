@@ -8,6 +8,8 @@ Signup/Login is required initially. <br/>
    After you Login, the Contacts screen will be launched first always, even after the app is closed. <br/>
    Multiple users can use the app in the same device(Logout old user -> Login new user). <br/>
    If you forgot your password, you can change it at the Login screen. <br/>
+   
+   <img src = "README images/login_signup_changePass_screens.png"> <br/>
 2. In the Contacts screen, you can add new contacts and also change the settings of the contacts. <br/>
 3. In the Settings screen, you can choose what contact information to see in the list. <br/>
 
