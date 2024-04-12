@@ -11,7 +11,8 @@ Signup/Login is required initially. <br/>
    <img src = "README images/login_signup_changePass_screens.png"> <br/>
 2. In the Contacts screen, you can add new contacts and also change the settings of the contacts list and choose what contact information to see. <br/><br/>
    <img src = "README images/contacts_addNew_settings_screens.png"> <br/>
-3. Pressing on a contact leads to a full screen with his information and other actions. <br/>
+3. Pressing on a contact leads to a full screen with his information and other actions. <br/><br/>
+   <img src = "README images/contact_info_edit_screens.png"> <br/>
 
 ## Includes
 * Main Activity with Fragments, Binding, Navigation graph <br/>
