@@ -43,9 +43,6 @@ public class LoginFragment extends Fragment {
         super.onAttach(context);
 
         prefManager = new PrefManager(context);
-        if(prefManager.isUserLoggedIn()) {
-            goToContacts();
-        }
     }
 
     @Override
@@ -61,6 +58,11 @@ public class LoginFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
+
+        if(prefManager.isUserLoggedIn()) {
+            goToContacts();
+        }
+
         initUsersFromDb();
         underlineTextSetup();
         loginListenerSetup();
