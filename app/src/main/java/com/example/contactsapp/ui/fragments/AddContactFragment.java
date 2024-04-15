@@ -129,17 +129,8 @@ public class AddContactFragment extends Fragment {
         if(editContactFlag) {
             updateContactInDb(contactToAdd);
         } else {
-            //GetGenderByNameResponse(contactToAdd);
             saveContactToDb(contactToAdd);
         }
-    }
-
-    private void GetGenderByNameResponse(Contact contact) {
-        contactViewModel.getGender(contact.getFirstName()).observe(this, genderResponse -> {
-            String gender = genderResponse.getGender();
-            contact.setGender(gender);
-            saveContactToDb(contact);
-        });
     }
 
     private void saveContactToDb(Contact contact) {
