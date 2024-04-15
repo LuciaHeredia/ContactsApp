@@ -20,7 +20,6 @@ Signup/Login is required initially. <br/>
 * Shared preferences, Jackson's ObjectMapper <br/>
 * Menu <br/>
 * Data base: ROOM(LiveData) <br/>
-* Web service: Retrofit2 <br/>
 * Design pattern: MVVM <br/>
 
 ## Created with:
