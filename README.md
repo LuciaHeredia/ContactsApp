@@ -3,7 +3,7 @@ Add contacts to your list and decide what contact information to see. <br/>
 Signup/Login is required initially. <br/> 
 <img src = "README images/app_icon.png" height="300"> <br/>
 
-## Description:
+## Usage:
 1. In order to save your contacts, first Signup and a space in the DB will be created. <br/>
    (Default user: admin, 123) <br/>
    After you Login, the Contacts screen will be launched first always, even after the app is closed. <br/>
@@ -15,7 +15,7 @@ Signup/Login is required initially. <br/>
 3. Pressing on a contact leads to a full screen with his information and other actions. <br/><br/>
    <img src = "README images/contact_info_edit_screens.png"> <br/>
 
-## Includes
+## Includes:
 * Main Activity with Fragments, Binding, Navigation graph <br/>
 * RecyclerView <br/>
 * Shared preferences, Jackson's ObjectMapper <br/>
